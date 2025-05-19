@@ -17,7 +17,7 @@ exports.insertNewUser = (first_name, last_name, email, password, role) => {
       return bcrypt.hash(password, 10).then((hashedPassword) => {
         return db
           .query(
-            "INSERT into users (first_name, last_name, email, password_hash, role) VALUES ($1, $2, $3, $4, $5) RETURNING first_name, last_name, email, role",
+            "INSERT into users (first_name, last_name, email, password_hash, role) VALUES ($1, $2, $3, $4, $5) RETURNING id, first_name, last_name, email, role",
             [first_name, last_name, email, hashedPassword, role || "community"]
           )
           .then(({ rows }) => {

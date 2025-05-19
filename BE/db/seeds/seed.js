@@ -30,7 +30,7 @@ const seed = ({ eventsData, usersData, signupsData }) => {
         title TEXT NOT NULL,
         description TEXT,
         location TEXT NOT NULL,
-        date TIMESTAMP NOT NULL,
+        date TIMESTAMPTZ NOT NULL,
         created_by INTEGER REFERENCES users(id),
         created_at TIMESTAMP DEFAULT NOW(),
         image_url TEXT);`
