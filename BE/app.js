@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const cookieParser = require("cookie-parser");
 const apiRouter = require("./routes/api-router");
 const {
   customErrorHandler,
@@ -8,6 +9,8 @@ const {
 } = require("./middlewear/error-handlers");
 
 app.use(express.json());
+
+app.use(cookieParser());
 
 app.use("/api", apiRouter);
 
