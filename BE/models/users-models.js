@@ -30,3 +30,32 @@ exports.insertNewUser = (first_name, last_name, email, password, role) => {
       });
     });
 };
+
+exports.verifyUser = (email, password) => {
+  return db
+    .query(`SELECT * FROM users WHERE email = $1`, [email])
+    .then(({ rows }) => {
+      const user = rows[0];
+      if (!user) {
+        return Promise.reject({
+          status: 404,
+          msg: "No account with this email exists",
+        });
+      }
+
+      return bcrypt.compare(password, user.password_hash).then((match) => {
+        if (!match) {
+          return Promise.reject({
+            status: 400,
+            msg: "Incorrect Password",
+          });
+        }
+
+        const { password_hash, created_at, ...userData } = user;
+        const token = jwt.sign(userData, process.env.JWT_SECRET, {
+          expiresIn: process.env.JWT_EXPIRES_IN,
+        });
+        return { token, userData };
+      });
+    });
+};
