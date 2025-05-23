@@ -1,4 +1,8 @@
-const { insertNewUser, verifyUser } = require("../models/users-models");
+const {
+  insertNewUser,
+  verifyUser,
+  selectEventsById,
+} = require("../models/users-models");
 
 //can probably merge these into one function as logic is same
 
@@ -34,6 +38,16 @@ exports.login = (req, res, next) => {
           maxAge: 3600000,
         })
         .send({ userData });
+    })
+    .catch(next);
+};
+
+exports.getEventsByUserId = (req, res, next) => {
+  const { user_id } = req.params;
+
+  selectEventsById(user_id)
+    .then((events) => {
+      res.status(200).send({ events });
     })
     .catch(next);
 };

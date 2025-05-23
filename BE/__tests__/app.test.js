@@ -14,8 +14,8 @@ beforeEach(() => {
   return seed(data);
 });
 
-const createToken = (role) => {
-  const payload = { id: 1, name: "Test User", role };
+const createToken = (role, id = 1) => {
+  const payload = { id, name: "Test User", role };
   return jwt.sign(payload, process.env.JWT_SECRET);
 };
 
@@ -102,6 +102,108 @@ describe("POST /api/events", () => {
       .expect(403)
       .then(({ body: { message } }) => {
         expect(message).toBe("Forbidden");
+      });
+  });
+});
+
+describe("GET /api/users/:user_id/events", () => {
+  test("200: should return an array of all events a community member is signed up to", () => {
+    const token = createToken("community", 2);
+    const cookie = `access_token=${token}`;
+
+    return request(app)
+      .get("/api/users/2/events")
+      .set("Cookie", cookie)
+      .expect(200)
+      .then(({ body: { events } }) => {
+        expect(events.length).toBe(2);
+        events.forEach((event) => {
+          expect(event).toMatchObject({
+            id: expect.any(Number),
+            title: expect.any(String),
+            description: expect.any(String),
+            location: expect.any(String),
+            date: expect.any(String),
+            created_by: expect.any(Number),
+            image_url: expect.any(String),
+            created_at: expect.any(String),
+          });
+        });
+      });
+  });
+  test("200: should return an array of all events a staff member is signed up to", () => {
+    const token = createToken("staff", 4);
+    const cookie = `access_token=${token}`;
+
+    return request(app)
+      .get("/api/users/4/events")
+      .set("Cookie", cookie)
+      .expect(200)
+      .then(({ body: { events } }) => {
+        expect(events.length).toBe(1);
+        events.forEach((event) => {
+          expect(event).toMatchObject({
+            id: expect.any(Number),
+            title: expect.any(String),
+            description: expect.any(String),
+            location: expect.any(String),
+            date: expect.any(String),
+            created_by: expect.any(Number),
+            image_url: expect.any(String),
+            created_at: expect.any(String),
+          });
+        });
+      });
+  });
+  test("403: should return forbidden if a community user tries to access another users signups", () => {
+    const token = createToken("community", 1);
+    const cookie = `access_token=${token}`;
+
+    return request(app)
+      .get("/api/users/2/events")
+      .set("Cookie", cookie)
+      .expect(403)
+      .then(({ body: { message } }) => {
+        expect(message).toBe("Forbidden");
+      });
+  });
+  test("403: should return forbidden if a staff member tries to access another users signups", () => {
+    // This makes sense as we dont want all staff members to see all events that different users have signed up with as it may not be theres
+    // may want to eventually extend so that a staff member can see all events a user has signed up to that they created
+    const token = createToken("staff", 1);
+    const cookie = `access_token=${token}`;
+
+    return request(app)
+      .get("/api/users/2/events")
+      .set("Cookie", cookie)
+      .expect(403)
+      .then(({ body: { message } }) => {
+        expect(message).toBe("Forbidden");
+      });
+  });
+  test("200: should return an empty array if a user is signed up to no events", () => {
+    const token = createToken("staff", 3);
+    const cookie = `access_token=${token}`;
+
+    return request(app)
+      .get("/api/users/3/events")
+      .set("Cookie", cookie)
+      .expect(200)
+      .then(({ body: { events } }) => {
+        expect(events.length).toBe(0);
+      });
+  });
+
+  test("400: responds with bad request if user_id is invalid data type", () => {
+    const token = createToken("staff", 3);
+    const cookie = `access_token=${token}`;
+
+    return request(app)
+      .get("/api/users/invalid/events")
+      .set("Cookie", cookie)
+      .expect(400)
+      .then(({ body: { message } }) => {
+        expect(message).toBe("Bad request");
       });
   });
 });

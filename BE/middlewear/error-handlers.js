@@ -1,17 +1,17 @@
 exports.invalidUrlErrorHandler = (req, res) => {
-  res.status(404).send({ msg: "Not found" });
+  res.status(404).send({ message: "Not found" });
 };
 
 exports.customErrorHandler = (err, req, res, next) => {
-  if (err.msg && err.status) {
-    res.status(err.status).send({ msg: err.msg });
+  if (err.message && err.status) {
+    res.status(err.status).send({ message: err.message });
   } else next(err);
 };
 
 exports.postgressErrorHandler = (err, req, res, next) => {
   if (err.code === "22P02") {
-    res.status(400).send({ msg: "Bad request" });
+    res.status(400).send({ message: "Bad request" });
   } else if (err.code === "23503") {
-    res.status(404).send({ msg: "Not found" });
+    res.status(404).send({ message: "Not found" });
   } else next(err);
 };

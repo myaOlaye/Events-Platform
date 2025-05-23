@@ -27,7 +27,6 @@ module.exports = [
     image_url: "https://example.com/images/tech-conference.jpg",
   },
   {
-    id: 4,
     title: "Community Yoga Class",
     description: "Free yoga sessions for all skill levels.",
     location: "Greenwood Community Center",

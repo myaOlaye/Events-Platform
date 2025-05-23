@@ -59,3 +59,16 @@ exports.verifyUser = (email, password) => {
       });
     });
 };
+
+exports.selectEventsById = (user_id) => {
+  // need to actually add something that only allows a user to authenticate with thier own id? rather than any user being able to see what every other user is signed up for!
+  //eg user 6 can currently see what user 1 is signed up for - fix this
+  return db
+    .query(
+      `SELECT e.* FROM signups s JOIN events e ON s.event_id = e.id WHERE s.user_id = $1`,
+      [user_id]
+    )
+    .then(({ rows }) => {
+      return rows;
+    });
+};
