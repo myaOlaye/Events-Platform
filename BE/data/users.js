@@ -31,4 +31,12 @@ module.exports = [
     role: "staff",
     created_at: new Date(),
   },
+  {
+    first_name: "Chloe",
+    last_name: "Mukonjo",
+    email: "chloe@example.com",
+    password_hash: "hashed_pw_5",
+    role: "staff",
+    created_at: new Date(),
+  },
 ];

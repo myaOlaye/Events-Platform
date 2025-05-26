@@ -72,3 +72,24 @@ exports.selectEventsById = (user_id) => {
       return rows;
     });
 };
+
+exports.selectSignUp = (user_id, event_id) => {
+  return db
+    .query(`SELECT * FROM signups WHERE user_id = $1 AND event_id = $2`, [
+      user_id,
+      event_id,
+    ])
+    .then(({ rows }) => {
+      if (rows[0]) {
+        return `User ${user_id} is signed up for event ${event_id}`;
+      } else return `User ${user_id} is not signed up for event ${event_id}`;
+    });
+};
+
+exports.selectCreatedEvents = (user_id) => {
+  return db
+    .query(`SELECT * FROM events WHERE created_by = $1`, [user_id])
+    .then(({ rows }) => {
+      return rows;
+    });
+};

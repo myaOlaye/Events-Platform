@@ -1,4 +1,9 @@
-const { selectEvents, insertEvent } = require("../models/events-models");
+const {
+  selectEvents,
+  insertEvent,
+  removeEvent,
+  selectEvent,
+} = require("../models/events-models");
 
 exports.getEvents = (req, res, next) => {
   // eventually will add search query param here
@@ -18,4 +23,30 @@ exports.createEvent = (req, res, next) => {
       res.status(201).send({ newEvent });
     })
     .catch(next);
+};
+
+exports.getEvent = (req, res, next) => {
+  const { event_id } = req.params;
+
+  selectEvent(event_id)
+    .then((event) => {
+      res.status(200).send({ event });
+    })
+    .catch(next);
+};
+
+exports.deleteEvent = (req, res, next) => {
+  const { event_id } = req.params;
+  const user_id = req.user.id;
+
+  // first check if exists then delete
+  const promises = [selectEvent(event_id), removeEvent(event_id, user_id)];
+
+  Promise.all(promises)
+    .then(() => {
+      res.status(204).send();
+    })
+    .catch((err) => {
+      next(err);
+    });
 };

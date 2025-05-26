@@ -4,9 +4,12 @@ const {
   signup,
   login,
   getEventsByUserId,
+  getSignUpStatus,
+  getCreatedEvents,
 } = require("../controllers/users-controllers");
 const restrictToSelf = require("../middlewear/restrictToSelf");
 const validateIdParams = require("../middlewear/validateIdParams");
+const authorise = require("../middlewear/authorise");
 
 usersRouter.post("/signup", signup);
 usersRouter.post("/login", login);
@@ -17,5 +20,19 @@ usersRouter.get(
   restrictToSelf,
   getEventsByUserId
 );
-
+usersRouter.get(
+  "/:user_id/events/:event_id/status",
+  authenticate,
+  validateIdParams("user_id", "event_id"),
+  restrictToSelf,
+  getSignUpStatus
+);
+usersRouter.get(
+  "/:user_id/created-events",
+  authenticate,
+  authorise("staff"),
+  validateIdParams("user_id"),
+  restrictToSelf,
+  getCreatedEvents
+);
 module.exports = usersRouter;

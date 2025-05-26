@@ -24,3 +24,31 @@ exports.insertEvent = (
       return newEvent;
     });
 };
+
+exports.selectEvent = (event_id) => {
+  return db
+    .query("SELECT * FROM events WHERE id=$1", [event_id])
+    .then(({ rows }) => {
+      if (rows[0]) return rows[0];
+      return Promise.reject({ status: 404, message: "Not found" });
+    });
+};
+
+exports.removeEvent = (event_id, user_id) => {
+  // first check that user trying to delete event created the event
+  return db
+    .query("SELECT * FROM events where id = $1 AND created_by = $2 ", [
+      event_id,
+      user_id,
+    ])
+    .then(({ rows }) => {
+      if (!rows[0]) {
+        return Promise.reject({ status: 403, message: "Forbidden" });
+      }
+      return db
+        .query(`DELETE FROM signups WHERE event_id = $1`, [event_id])
+        .then(() => {
+          db.query(`DELETE FROM events where id = $1`, [event_id]);
+        });
+    });
+};
