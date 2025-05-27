@@ -3,7 +3,7 @@ require("dotenv").config({ path: "./BE/.env.secrets" });
 
 const authenticate = (req, res, next) => {
   const token = req.cookies.access_token;
-  if (!token) return res.status(401).json({ message: "No token" });
+  if (!token) return res.status(401).json({ msg: "No token" });
 
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {

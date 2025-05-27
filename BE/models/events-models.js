@@ -30,7 +30,7 @@ exports.selectEvent = (event_id) => {
     .query("SELECT * FROM events WHERE id=$1", [event_id])
     .then(({ rows }) => {
       if (rows[0]) return rows[0];
-      return Promise.reject({ status: 404, message: "Not found" });
+      return Promise.reject({ status: 404, msg: "Not found" });
     });
 };
 
@@ -43,7 +43,7 @@ exports.removeEvent = (event_id, user_id) => {
     ])
     .then(({ rows }) => {
       if (!rows[0]) {
-        return Promise.reject({ status: 403, message: "Forbidden" });
+        return Promise.reject({ status: 403, msg: "Forbidden" });
       }
       return db
         .query(`DELETE FROM signups WHERE event_id = $1`, [event_id])

@@ -19,7 +19,7 @@ const signupReducer = (state, action) => {
     case "set_loading":
       return {
         ...state,
-        loading: true,
+        loading: action.value,
         errors: {
           firstName: "",
           lastName: "",

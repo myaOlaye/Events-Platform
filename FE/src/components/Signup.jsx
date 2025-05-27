@@ -101,7 +101,7 @@ const Signup = () => {
     const isValid = validateFormInputs();
     if (!isValid) return;
 
-    dispatch({ type: "set_loading" });
+    dispatch({ type: "set_loading", value: true });
 
     const reqBody = {
       first_name: state.formInputs.firstName,
@@ -110,26 +110,38 @@ const Signup = () => {
       password: state.formInputs.password,
       role: state.formInputs.role,
     };
-    // signup api request and catch block that sets signup error
 
     signupUser(reqBody)
       .then((user) => {
-        console.log(user);
-        //need to do something here that would set loading to false or move to a diff page etc
         navigate("/");
       })
+      // .catch((err) => {
+      //   console.log(err);
+      //   if (err.status === 500) {
+      //     dispatch({
+      //       type: "set_signup_error",
+      //       value: "Error creating account. Please try again later.",
+      //     });
+      //   } else if (err.status === 409)
+      //     dispatch({
+      //       type: "set_signup_error",
+      //       value: "Account with this email already exists.",
+      //     });
+      // })
       .catch((err) => {
+        dispatch({ type: "set_loading", value: false });
         console.log(err);
-        if (err.status === 500) {
+        if (err.response.status === 500) {
           dispatch({
             type: "set_signup_error",
-            value: "Error creating account. Please try again later.",
+            value: `Something went wrong. Please try again later.`,
           });
-        } else if (err.status === 409)
+        } else {
           dispatch({
             type: "set_signup_error",
-            value: "Account with this email already exists.",
+            value: `${err.response.data.msg}`,
           });
+        }
       });
   };
 

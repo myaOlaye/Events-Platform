@@ -65,12 +65,16 @@ const Login = () => {
     loginUser(reqBody)
       .then((userData) => {
         console.log(userData);
+
         navigate("/");
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
-        if (err.status === 500) {
-          setLoginError("Login failed. Please try again later.");
+        if (err.response.status === 500) {
+          setLoginError("Something went wrong. Please try again later");
+        } else {
+          setLoginError(`${err.response.data.msg}`);
         }
       });
   };

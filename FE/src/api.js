@@ -15,13 +15,28 @@ export const getEvents = () => {
 };
 
 export const signupUser = (reqBody) => {
-  return api.post(`/users/signup`, reqBody).then(({ data: { user } }) => {
-    return user;
-  });
+  return api
+    .post(`/users/signup`, reqBody, {
+      withCredentials: true,
+    })
+    .then(({ data }) => {
+      return data;
+    });
 };
 
 export const loginUser = (reqBody) => {
-  return api.post(`/users/login`, reqBody).then(({ data: { userData } }) => {
+  return api
+    .post(`/users/login`, reqBody, {
+      withCredentials: true,
+    })
+    .then(({ data: { userData } }) => {
+      return userData;
+    });
+};
+
+//come back to this
+export const getUserInfo = () => {
+  return api.post(`/users/auth/me`).then(({ data }) => {
     return userData;
   });
 };

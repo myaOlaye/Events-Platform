@@ -42,12 +42,12 @@ describe("GET /api/events", () => {
         });
       });
   });
-  test("401: returns No token message for non logged in user", () => {
+  test("401: returns No token msg for non logged in user", () => {
     return request(app)
       .get("/api/events")
       .expect(401)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("No token");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("No token");
       });
   });
 });
@@ -100,8 +100,8 @@ describe("POST /api/events", () => {
       .set("Cookie", [cookie])
       .send(newEvent)
       .expect(403)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Forbidden");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Forbidden");
       });
   });
 });
@@ -163,8 +163,8 @@ describe("GET /api/users/:user_id/events", () => {
       .get("/api/users/2/events")
       .set("Cookie", cookie)
       .expect(403)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Forbidden");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Forbidden");
       });
   });
   test("403: should return forbidden if a staff member tries to access another users signups", () => {
@@ -177,8 +177,8 @@ describe("GET /api/users/:user_id/events", () => {
       .get("/api/users/2/events")
       .set("Cookie", cookie)
       .expect(403)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Forbidden");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Forbidden");
       });
   });
   test("200: should return an empty array if a user is signed up to no events", () => {
@@ -202,8 +202,8 @@ describe("GET /api/users/:user_id/events", () => {
       .get("/api/users/invalid/events")
       .set("Cookie", cookie)
       .expect(400)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Bad request");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Bad request");
       });
   });
 });
@@ -241,8 +241,8 @@ describe("GET /api/users/:user_id/events/:event_id/status", () => {
       .get("/api/users/2/events/2/status")
       .set("Cookie", cookie)
       .expect(403)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Forbidden");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Forbidden");
       });
   });
   test("403: Responds forbidden if a community member tries to see if another user is signed up for an event", () => {
@@ -253,8 +253,8 @@ describe("GET /api/users/:user_id/events/:event_id/status", () => {
       .get("/api/users/2/events/2/status")
       .set("Cookie", cookie)
       .expect(403)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Forbidden");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Forbidden");
       });
   });
   test("400: Responds bad request if user_id is invalid data type", () => {
@@ -265,8 +265,8 @@ describe("GET /api/users/:user_id/events/:event_id/status", () => {
       .get("/api/users/invalid/events/2/status")
       .set("Cookie", cookie)
       .expect(400)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Bad request");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Bad request");
       });
   });
   test("400: Responds bad request if event_id is invalid data type", () => {
@@ -277,8 +277,8 @@ describe("GET /api/users/:user_id/events/:event_id/status", () => {
       .get("/api/users/3/events/invalid/status")
       .set("Cookie", cookie)
       .expect(400)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Bad request");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Bad request");
       });
   });
 });
@@ -327,8 +327,8 @@ describe("GET /api/users/:user_id/created-events", () => {
       .get("/api/users/1/created-events")
       .set("Cookie", cookie)
       .expect(403)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Forbidden");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Forbidden");
       });
   });
   test("403: Should return forbidden if a staff member tries to access another staff members created events", () => {
@@ -339,8 +339,8 @@ describe("GET /api/users/:user_id/created-events", () => {
       .get("/api/users/3/created-events")
       .set("Cookie", cookie)
       .expect(403)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Forbidden");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Forbidden");
       });
   });
   test("400: Should return bad request if user_id is invalid data type", () => {
@@ -351,8 +351,8 @@ describe("GET /api/users/:user_id/created-events", () => {
       .get("/api/users/invalid/created-events")
       .set("Cookie", cookie)
       .expect(400)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Bad request");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Bad request");
       });
   });
 });
@@ -406,8 +406,8 @@ describe("GET /api/event/:event_id", () => {
       .get("/api/events/100")
       .set("Cookie", [cookie])
       .expect(404)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Not found");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Not found");
       });
   });
   test("400: responds with bad request when invalid id data type", () => {
@@ -418,8 +418,8 @@ describe("GET /api/event/:event_id", () => {
       .get("/api/events/invalid")
       .set("Cookie", [cookie])
       .expect(400)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Bad request");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Bad request");
       });
   });
 });
@@ -445,8 +445,8 @@ describe("DELETE /api/events/:event_id", () => {
       .delete("/api/events/1")
       .set("Cookie", cookie)
       .expect(403)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Forbidden");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Forbidden");
       });
   });
   test("403: responds with forbidden if community member tries to delete event", () => {
@@ -457,8 +457,8 @@ describe("DELETE /api/events/:event_id", () => {
       .delete("/api/events/1")
       .set("Cookie", cookie)
       .expect(403)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Forbidden");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Forbidden");
       });
   });
   test("404: Responds with Not found if event id does not exist", () => {
@@ -469,8 +469,8 @@ describe("DELETE /api/events/:event_id", () => {
       .delete("/api/events/100")
       .set("Cookie", cookie)
       .expect(404)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Not found");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Not found");
       });
   });
 
@@ -482,8 +482,8 @@ describe("DELETE /api/events/:event_id", () => {
       .delete("/api/events/invalid")
       .set("Cookie", cookie)
       .expect(400)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Bad request");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Bad request");
       });
   });
 });
@@ -537,8 +537,8 @@ describe("POST /api/signups", () => {
       .set("Cookie", cookie)
       .send(newSignUp)
       .expect(403)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Forbidden");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Forbidden");
       });
   });
   test("409: Returns conflict when user tries to sign up for an event they're already signed up for", () => {
@@ -551,8 +551,8 @@ describe("POST /api/signups", () => {
       .set("Cookie", cookie)
       .send(newSignUp)
       .expect(409)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Conflict");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Conflict");
       });
   });
 });
@@ -580,8 +580,8 @@ describe("GET /api/users/auth/me", () => {
     return request(app)
       .get("/api/users/auth/me")
       .expect(401)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("No token");
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("No token");
       });
   });
 });

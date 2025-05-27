@@ -8,7 +8,7 @@ const validateIdParams = (...paramKeys) => {
       const id = Number(req.params[key]);
 
       if (isNaN(id)) {
-        return res.status(400).send({ message: `Bad request` });
+        return res.status(400).send({ msg: `Bad request` });
       }
     }
     next();
