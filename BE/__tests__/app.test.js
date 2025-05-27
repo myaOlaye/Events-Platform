@@ -15,7 +15,7 @@ beforeEach(() => {
 });
 
 const createToken = (role, id = 1) => {
-  const payload = { id, name: "Test User", role };
+  const payload = { id, firstName: "Test", lastName: "User", role };
   return jwt.sign(payload, process.env.JWT_SECRET);
 };
 
@@ -553,6 +553,35 @@ describe("POST /api/signups", () => {
       .expect(409)
       .then(({ body: { message } }) => {
         expect(message).toBe("Conflict");
+      });
+  });
+});
+
+describe("GET /api/users/auth/me", () => {
+  test("200: returns user info when user has access token (is logged in)", () => {
+    const token = createToken("staff", 3);
+    const cookie = `access_token=${token}`;
+
+    return request(app)
+      .get("/api/users/auth/me")
+      .set("Cookie", cookie)
+      .expect(200)
+      .then(({ body: { user } }) => {
+        expect(user).toMatchObject({
+          id: 3,
+          firstName: expect.any(String),
+          lastName: expect.any(String),
+
+          role: "staff",
+        });
+      });
+  });
+  test("401: returns unauthorised when user is not logged in and therefore has no access token", () => {
+    return request(app)
+      .get("/api/users/auth/me")
+      .expect(401)
+      .then(({ body: { message } }) => {
+        expect(message).toBe("No token");
       });
   });
 });

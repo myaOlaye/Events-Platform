@@ -102,7 +102,11 @@ const Login = () => {
         </Form.Group>
         <Form.Group as={Row} className="mb-3">
           <Col sm={{ span: 10, offset: 2 }}>
-            <Button type="submit">Sign up</Button>
+            {loading ? (
+              <p>Loading...</p> // make a spinner soon
+            ) : (
+              <Button type="submit">Sign up</Button>
+            )}
           </Col>
         </Form.Group>
       </fieldset>

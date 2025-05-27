@@ -73,3 +73,7 @@ exports.getCreatedEvents = (req, res, next) => {
     })
     .catch(next);
 };
+
+exports.getUserInfo = (req, res, next) => {
+  res.status(200).send({ user: req.user });
+};

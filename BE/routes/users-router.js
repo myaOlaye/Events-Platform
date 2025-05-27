@@ -6,6 +6,7 @@ const {
   getEventsByUserId,
   getSignUpStatus,
   getCreatedEvents,
+  getUserInfo,
 } = require("../controllers/users-controllers");
 const restrictToSelf = require("../middlewear/restrictToSelf");
 const validateIdParams = require("../middlewear/validateIdParams");
@@ -35,4 +36,5 @@ usersRouter.get(
   restrictToSelf,
   getCreatedEvents
 );
+usersRouter.get("/auth/me", authenticate, getUserInfo);
 module.exports = usersRouter;
