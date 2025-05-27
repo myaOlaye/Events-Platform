@@ -8,7 +8,6 @@ const {
 const authenticate = require("../middlewear/authenticate");
 const authorise = require("../middlewear/authorise");
 const validateIdParams = require("../middlewear/validateIdParams");
-const restrictToSelf = require("../middlewear/restrictToSelf");
 
 eventsRouter
   .get("/", authenticate, getEvents)
