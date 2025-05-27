@@ -5,17 +5,23 @@ const api = axios.create({
 });
 
 export const getEvents = () => {
-  return api.get(`/events`).then(({ data: { events } }) => {
-    return events;
+  return api
+    .get(`/events`, {
+      withCredentials: true,
+    })
+    .then(({ data: { events } }) => {
+      return events;
+    });
+};
+
+export const signupUser = (reqBody) => {
+  return api.post(`/users/signup`, reqBody).then(({ data: { user } }) => {
+    return user;
   });
 };
 
-export const signUpUser = (reqBody) => {
-  return api
-    .post(`/users/signup`, reqBody, {
-      withCredentials: true,
-    })
-    .then(({ data: { user } }) => {
-      return user;
-    });
+export const loginUser = (reqBody) => {
+  return api.post(`/users/login`, reqBody).then(({ data: { userData } }) => {
+    return userData;
+  });
 };

@@ -2,12 +2,13 @@ import React, { useReducer } from "react";
 import Form from "react-bootstrap/Form";
 import { Row, Col, Button } from "react-bootstrap";
 import signupReducer from "../reducers/signupReducer";
+import { useNavigate } from "react-router-dom";
 import {
   formatFieldName,
   isValidEmail,
   isStrongPassword,
 } from "../utilities/formValidationFunctions";
-import { signUpUser } from "../api";
+import { signupUser } from "../api";
 
 const initialState = {
   formInputs: {
@@ -29,6 +30,7 @@ const initialState = {
 
 const Signup = () => {
   const [state, dispatch] = useReducer(signupReducer, initialState);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     dispatch({
@@ -110,10 +112,11 @@ const Signup = () => {
     };
     // signup api request and catch block that sets signup error
 
-    signUpUser(reqBody)
+    signupUser(reqBody)
       .then((user) => {
         console.log(user);
         //need to do something here that would set loading to false or move to a diff page etc
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);
