@@ -109,7 +109,7 @@ const Login = () => {
             {loading ? (
               <p>Loading...</p> // make a spinner soon
             ) : (
-              <Button type="submit">Sign up</Button>
+              <Button type="submit">Log in</Button>
             )}
           </Col>
         </Form.Group>

@@ -14,6 +14,16 @@ export const getEvents = () => {
     });
 };
 
+export const getEvent = (event_id) => {
+  return api
+    .get(`/events/${event_id}`, {
+      withCredentials: true,
+    })
+    .then(({ data: { event } }) => {
+      return event;
+    });
+};
+
 export const signupUser = (reqBody) => {
   return api
     .post(`/users/signup`, reqBody, {
@@ -34,9 +44,12 @@ export const loginUser = (reqBody) => {
     });
 };
 
-//come back to this
 export const getUserInfo = () => {
-  return api.post(`/users/auth/me`).then(({ data }) => {
-    return userData;
-  });
+  return api
+    .get(`/users/auth/me`, {
+      withCredentials: true,
+    })
+    .then(({ data: { user } }) => {
+      return user;
+    });
 };

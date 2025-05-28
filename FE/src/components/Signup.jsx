@@ -115,19 +115,6 @@ const Signup = () => {
       .then((user) => {
         navigate("/");
       })
-      // .catch((err) => {
-      //   console.log(err);
-      //   if (err.status === 500) {
-      //     dispatch({
-      //       type: "set_signup_error",
-      //       value: "Error creating account. Please try again later.",
-      //     });
-      //   } else if (err.status === 409)
-      //     dispatch({
-      //       type: "set_signup_error",
-      //       value: "Account with this email already exists.",
-      //     });
-      // })
       .catch((err) => {
         dispatch({ type: "set_loading", value: false });
         console.log(err);
