@@ -73,3 +73,13 @@ export const isUserSignedUpForThisEvent = (user_id, event_id) => {
       return status;
     });
 };
+
+export const getEventsUserIsSignedUpTo = (user_id) => {
+  return api
+    .get(`/users/${user_id}/events`, {
+      withCredentials: true,
+    })
+    .then(({ data: { events } }) => {
+      return events;
+    });
+};

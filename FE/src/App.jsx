@@ -8,6 +8,7 @@ import { getUserInfo } from "./api";
 import { Routes, Route } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import Header from "./components/Header";
+import YourEvents from "./components/YourEvents";
 
 function App() {
   const { setUserInfo } = useContext(UserInfoContext);
@@ -15,7 +16,6 @@ function App() {
   useEffect(() => {
     getUserInfo()
       .then(({ id, first_name, last_name, role, email }) => {
-        console.log("inside setuserInfo");
         setUserInfo({
           id,
           email,
@@ -38,6 +38,7 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/" element={<EventSearch />}></Route>
         <Route path="/event/:event_id" element={<Event />}></Route>
+        <Route path="/your-events" element={<YourEvents />}></Route>
       </Routes>
     </>
   );
