@@ -1,8 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Header.module.css";
+import { UserInfoContext } from "../contexts/UserInfoContext";
+import { formatName } from "../utilities/formatName";
 
 const Header = () => {
+  const { userInfo } = useContext(UserInfoContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
@@ -35,6 +38,9 @@ const Header = () => {
       <div className={styles.logo} onClick={() => navigate("/")}>
         EventsPlatform
       </div>
+      {userInfo.firstName && (
+        <p>Welcome back, {formatName(userInfo.firstName)}</p>
+      )}
       <div className={styles.dropdown} ref={dropdownRef}>
         <button
           className={styles.dropdownToggle}

@@ -19,7 +19,7 @@ function App() {
         setUserInfo({
           id,
           email,
-          fristName: first_name,
+          firstName: first_name,
           lastName: last_name,
           role,
         });
