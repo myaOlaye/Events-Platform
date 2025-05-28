@@ -1,5 +1,5 @@
 import React from "react";
-
+import { formatDate } from "../utilities/formatDate";
 import { useNavigate, Link } from "react-router-dom";
 
 const EventCard = ({
@@ -13,7 +13,7 @@ const EventCard = ({
         <h2>{title}</h2>
         <p>{location}</p>
         <p>{description}</p>
-        <p>{date}</p>
+        <p>{formatDate(date)}</p>
         <img src={image_url} alt="" />
         {/*  change be to have actual img urls */}
       </div>

@@ -218,7 +218,7 @@ describe("GET /api/users/:user_id/events/:event_id/status", () => {
       .set("Cookie", cookie)
       .expect(200)
       .then(({ body: { status } }) => {
-        expect(status).toBe("User 2 is signed up for event 2");
+        expect(status).toBe(true);
       });
   });
   test("200: Responds no if user is not signed up", () => {
@@ -230,7 +230,7 @@ describe("GET /api/users/:user_id/events/:event_id/status", () => {
       .set("Cookie", cookie)
       .expect(200)
       .then(({ body: { status } }) => {
-        expect(status).toBe("User 2 is not signed up for event 1");
+        expect(status).toBe(false);
       });
   });
   test("403: Responds forbidden if a staff member tries to see if another user is signed up for an event", () => {

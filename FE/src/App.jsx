@@ -3,11 +3,30 @@ import EventSearch from "./components/eventSearch";
 import Event from "./components/Event";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
-
+import { UserInfoContext } from "./contexts/UserInfoContext";
+import { getUserInfo } from "./api";
 import { Routes, Route } from "react-router-dom";
+import { useContext, useEffect } from "react";
 
 function App() {
-  // fetch user detail - if dont have go to login page
+  const { setUserInfo } = useContext(UserInfoContext);
+
+  useEffect(() => {
+    getUserInfo()
+      .then(({ id, first_name, last_name, role, email }) => {
+        console.log("inside setuserInfo");
+        setUserInfo({
+          id,
+          email,
+          fristName: first_name,
+          lastName: last_name,
+          role,
+        });
+      })
+      .catch((err) => {
+        setUserInfo({});
+      });
+  }, []);
 
   return (
     <>

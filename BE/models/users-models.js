@@ -81,8 +81,8 @@ exports.selectSignUp = (user_id, event_id) => {
     ])
     .then(({ rows }) => {
       if (rows[0]) {
-        return `User ${user_id} is signed up for event ${event_id}`;
-      } else return `User ${user_id} is not signed up for event ${event_id}`;
+        return true;
+      } else return false;
     });
 };
 

@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
-import { Button, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { isValidEmail } from "../utilities/formValidationFunctions";
 import { loginUser } from "../api";
-
+import { UserInfoContext } from "../contexts/UserInfoContext";
+import { getUserInfo } from "../api";
 const Login = () => {
+  const { userInfo } = useContext(UserInfoContext);
   const [loginFormData, setLoginFormData] = useState({
     email: "",
     password: "",
@@ -13,8 +15,15 @@ const Login = () => {
   const [formErrors, setFormErrors] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [loginError, setLoginError] = useState("");
+  const { setUserInfo } = useContext(UserInfoContext);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userInfo.id) {
+      navigate("/");
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -63,14 +72,20 @@ const Login = () => {
     };
 
     loginUser(reqBody)
-      .then((userData) => {
-        console.log(userData);
-
+      .then(() => getUserInfo())
+      .then(({ id, first_name, last_name, role, email }) => {
+        setUserInfo({
+          id,
+          email,
+          fristName: first_name,
+          lastName: last_name,
+          role,
+        });
         navigate("/");
       })
       .catch((err) => {
         setLoading(false);
-        console.log(err);
+
         if (err.response.status === 500) {
           setLoginError("Something went wrong. Please try again later");
         } else {
@@ -80,42 +95,48 @@ const Login = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <fieldset>
-        <Form.Group className="mb-3" controlId="formGroupEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter email"
-            name="email"
-            value={loginFormData.email}
-            onChange={handleChange}
-          />
-          {formErrors.email}
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={loginFormData.password}
-            onChange={handleChange}
-          />
-          {formErrors.password}
-        </Form.Group>
-        <Form.Group as={Row} className="mb-3">
-          <Col sm={{ span: 10, offset: 2 }}>
-            {loading ? (
-              <p>Loading...</p> // make a spinner soon
-            ) : (
-              <Button type="submit">Log in</Button>
-            )}
-          </Col>
-        </Form.Group>
-      </fieldset>
-      {loginError && <p>{loginError}</p>}
-    </Form>
+    <>
+      <h2>Login</h2>
+      <Form onSubmit={handleSubmit}>
+        <fieldset>
+          <Form.Group className="mb-3" controlId="formGroupEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              name="email"
+              value={loginFormData.email}
+              onChange={handleChange}
+            />
+            {formErrors.email}
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formGroupPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              name="password"
+              value={loginFormData.password}
+              onChange={handleChange}
+            />
+            {formErrors.password}
+          </Form.Group>
+          <Form.Group as={Row} className="mb-3">
+            <Col sm={{ span: 10, offset: 2 }}>
+              {loading ? (
+                <p>Loading...</p> // make a spinner soon
+              ) : (
+                <button type="submit">Log in</button>
+              )}
+            </Col>
+          </Form.Group>
+        </fieldset>
+        {loginError && <p>{loginError}</p>}
+      </Form>{" "}
+      <p>
+        Don't have an account? <Link to={`/signup`}>Sign up here.</Link>
+      </p>
+    </>
   );
 };
 

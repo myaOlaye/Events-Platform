@@ -1,14 +1,15 @@
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer, useContext } from "react";
 import Form from "react-bootstrap/Form";
 import { Row, Col, Button } from "react-bootstrap";
 import signupReducer from "../reducers/signupReducer";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   formatFieldName,
   isValidEmail,
   isStrongPassword,
 } from "../utilities/formValidationFunctions";
 import { signupUser } from "../api";
+import { UserInfoContext } from "../contexts/UserInfoContext";
 
 const initialState = {
   formInputs: {
@@ -29,8 +30,15 @@ const initialState = {
 };
 
 const Signup = () => {
+  const { userInfo } = useContext(UserInfoContext);
   const [state, dispatch] = useReducer(signupReducer, initialState);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userInfo.id) {
+      navigate("/");
+    }
+  }, []);
 
   const handleChange = (e) => {
     dispatch({
@@ -133,86 +141,92 @@ const Signup = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <fieldset disabled={state.loading}>
-        <Form.Group className="mb-3" controlId="formGroupFirstName">
-          <Form.Label>First name</Form.Label>
-          <Form.Control
-            type="name"
-            name="firstName"
-            placeholder="Enter first name"
-            value={state.formInputs.firstName}
-            onChange={handleChange}
-          />
-          {state.errors.firstName}
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupLastName">
-          <Form.Label>Last name</Form.Label>
-          <Form.Control
-            type="name"
-            placeholder="Enter last name"
-            name="lastName"
-            value={state.formInputs.lastName}
-            onChange={handleChange}
-          />
-          {state.errors.lastName}
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter email"
-            name="email"
-            value={state.formInputs.email}
-            onChange={handleChange}
-          />
-          {state.errors.email}
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={state.formInputs.password}
-            onChange={handleChange}
-          />
-          {state.errors.password}
-        </Form.Group>
-        <Col sm={10}>
-          <Form.Check
-            type="radio"
-            label="Staff"
-            name="role"
-            id="formHorizontalRadios1"
-            value="staff"
-            checked={state.formInputs.role === "staff"}
-            onChange={handleChange}
-          />
-          <Form.Check
-            type="radio"
-            label="Community member"
-            name="role"
-            id="formHorizontalRadios2"
-            value="community"
-            checked={state.formInputs.role === "community"}
-            onChange={handleChange}
-          />
-        </Col>
-        <Form.Group as={Row} className="mb-3">
-          <Col sm={{ span: 10, offset: 2 }}>
-            {state.loading ? (
-              <p>Loading...</p> // make a spinner soon
-            ) : (
-              <Button type="submit" disabled={state.loading}>
-                Sign up
-              </Button>
-            )}
+    <>
+      <h2>Sign Up</h2>
+      <Form onSubmit={handleSubmit}>
+        <fieldset disabled={state.loading}>
+          <Form.Group className="mb-3" controlId="formGroupFirstName">
+            <Form.Label>First name</Form.Label>
+            <Form.Control
+              type="name"
+              name="firstName"
+              placeholder="Enter first name"
+              value={state.formInputs.firstName}
+              onChange={handleChange}
+            />
+            {state.errors.firstName}
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formGroupLastName">
+            <Form.Label>Last name</Form.Label>
+            <Form.Control
+              type="name"
+              placeholder="Enter last name"
+              name="lastName"
+              value={state.formInputs.lastName}
+              onChange={handleChange}
+            />
+            {state.errors.lastName}
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formGroupEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              name="email"
+              value={state.formInputs.email}
+              onChange={handleChange}
+            />
+            {state.errors.email}
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formGroupPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              name="password"
+              value={state.formInputs.password}
+              onChange={handleChange}
+            />
+            {state.errors.password}
+          </Form.Group>
+          <Col sm={10}>
+            <Form.Check
+              type="radio"
+              label="Staff"
+              name="role"
+              id="formHorizontalRadios1"
+              value="staff"
+              checked={state.formInputs.role === "staff"}
+              onChange={handleChange}
+            />
+            <Form.Check
+              type="radio"
+              label="Community member"
+              name="role"
+              id="formHorizontalRadios2"
+              value="community"
+              checked={state.formInputs.role === "community"}
+              onChange={handleChange}
+            />
           </Col>
-        </Form.Group>
-        {state.errors.signup && <p>{state.errors.signup}</p>}
-      </fieldset>
-    </Form>
+          <Form.Group as={Row} className="mb-3">
+            <Col sm={{ span: 10, offset: 2 }}>
+              {state.loading ? (
+                <p>Loading...</p> // make a spinner soon
+              ) : (
+                <Button type="submit" disabled={state.loading}>
+                  Sign up
+                </Button>
+              )}
+            </Col>
+          </Form.Group>
+          {state.errors.signup && <p>{state.errors.signup}</p>}
+        </fieldset>
+      </Form>
+      <p>
+        Already have an account? <Link to={`/login`}>Login here.</Link>
+      </p>
+    </>
   );
 };
 

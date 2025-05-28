@@ -53,3 +53,23 @@ export const getUserInfo = () => {
       return user;
     });
 };
+
+export const signUpForEvent = (reqBody) => {
+  return api
+    .post(`/signups`, reqBody, {
+      withCredentials: true,
+    })
+    .then(({ data: { signup } }) => {
+      return signup;
+    });
+};
+
+export const isUserSignedUpForThisEvent = (user_id, event_id) => {
+  return api
+    .get(`/users/${user_id}/events/${event_id}/status`, {
+      withCredentials: true,
+    })
+    .then(({ data: { status } }) => {
+      return status;
+    });
+};
