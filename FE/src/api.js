@@ -83,3 +83,23 @@ export const getEventsUserIsSignedUpTo = (user_id) => {
       return events;
     });
 };
+
+export const getEventsUserCreated = (user_id) => {
+  return api
+    .get(`/users/${user_id}/created-events`, {
+      withCredentials: true,
+    })
+    .then(({ data: { events } }) => {
+      return events;
+    });
+};
+
+export const createEvent = (reqBody) => {
+  return api
+    .post(`/events`, reqBody, {
+      withCredentials: true,
+    })
+    .then(({ data: { signup } }) => {
+      return signup;
+    });
+};

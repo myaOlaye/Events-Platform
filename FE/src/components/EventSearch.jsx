@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getEvents } from "../api";
-
 import { useNavigate } from "react-router-dom";
-
 import EventCard from "./EventCard";
 
 const EventSearch = () => {

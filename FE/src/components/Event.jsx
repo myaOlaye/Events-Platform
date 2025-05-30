@@ -5,6 +5,7 @@ import { formatDate } from "../utilities/formatDate";
 import { UserInfoContext } from "../contexts/UserInfoContext";
 import { isUserSignedUpForThisEvent } from "../api";
 import { signUpForEvent } from "../api";
+import styles from "./Event.module.css";
 
 const Event = () => {
   const { event_id } = useParams();
@@ -95,30 +96,34 @@ const Event = () => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       {error ? (
-        <p>{error}</p>
+        <p className={styles.error}>{error}</p>
       ) : loading.event ? (
-        <p>loading ...</p>
+        <p className={styles.loading}>Loading...</p>
       ) : (
         <>
-          <h1>{event.title}</h1>
-          <p>{event.location}</p>
-          <p>{event.description}</p>
-          <p>{formatDate(event.date)}</p>
-          <img src={event.image_url} alt="" />
-          {/*  change be to have actual img urls */}
-          {userInfo.id && loading.setSignedUp ? (
-            <></>
-          ) : isSignedUp ? (
-            <p>
-              You are signed up to this event. Click here to add to your google
-              calendar.
+          <h1 className={styles.title}>{event.title}</h1>
+          <img
+            src={event.image_url}
+            className={styles.eventImage}
+            alt={event.title}
+          />
+          <p className={styles.location}>{event.location}</p>
+          <p className={styles.date}>{formatDate(event.date)}</p>
+          <p className={styles.description}>{event.description}</p>
+
+          {userInfo.id && loading.setSignedUp ? null : isSignedUp ? (
+            <p className={styles.signedUp}>
+              You are signed up to this event. Click here to add to your Google
+              Calendar.
             </p>
           ) : loading.signup ? (
-            <p>Signup Loading...</p>
+            <p className={styles.loading}>Signing you up...</p>
           ) : (
-            <button onClick={handleClick}>Sign Up for This Event</button>
+            <button className={styles.signupButton} onClick={handleClick}>
+              Sign Up for This Event
+            </button>
           )}
         </>
       )}

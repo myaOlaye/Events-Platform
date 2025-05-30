@@ -60,7 +60,7 @@ const Header = () => {
             </li>
             <li
               className={styles.dropdownItem}
-              onClick={() => handleNavigate("/your-events")}
+              onClick={() => handleNavigate("/your-events/attending")}
             >
               Your Events
             </li>

@@ -1,0 +1,58 @@
+/* Container holds sidebar and content wrapper */
+.container {
+  display: flex;
+  min-height: 100vh;
+  padding-top: 60px; /* to clear header */
+}
+
+/* Sidebar fixed */
+.sideNavWrapper {
+  width: 220px;
+  position: fixed;
+  top: 60px;
+  bottom: 0;
+  left: 0;
+  background-color: #f0f0f0;
+  border-right: 1px solid #ccc;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Content wrapper fills the remaining width with left margin for sidebar */
+.contentWrapper {
+  margin-left: 300px; /* space for sidebar */
+  flex-grow: 1;
+  display: flex;
+
+  justify-content: center; /* center content horizontally in this area */
+  padding: 20px;
+  min-height: calc(100vh - 60px); /* full height minus header */
+  box-sizing: border-box;
+}
+
+/* Actual content area with max width */
+.content {
+  width: 100%;
+  max-width: 900px; /* or whatever max width you want */
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    padding-top: 60px;
+  }
+  .sideNavWrapper {
+    position: relative;
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid #ccc;
+  }
+  .contentWrapper {
+    margin-left: 0;
+    justify-content: flex-start;
+  }
+  .content {
+    max-width: 100%;
+  }
+}

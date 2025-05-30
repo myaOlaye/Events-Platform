@@ -1,0 +1,40 @@
+.pageContainer {
+  display: flex;
+  padding-left: 220px;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+.content {
+  flex: 1;
+  padding: 2rem;
+}
+
+.eventHeading {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+.error,
+.loading {
+  font-size: 1.1rem;
+  color: #c62828;
+  margin-top: 1rem;
+}
+
+.loading {
+  color: #555;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .pageContainer {
+    flex-direction: column;
+    padding-left: 0;
+  }
+
+  .content {
+    padding: 1rem;
+  }
+}
