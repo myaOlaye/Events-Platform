@@ -22,6 +22,12 @@ const Event = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!userInfo.id) {
+      navigate("/login");
+    }
+  }, [userInfo.id]);
+
+  useEffect(() => {
     setLoading((currLoading) => {
       return { ...currLoading, event: true };
     });
@@ -46,12 +52,6 @@ const Event = () => {
         }
       });
   }, [event_id]);
-
-  useEffect(() => {
-    if (!userInfo.id) {
-      navigate("/");
-    }
-  }, [userInfo, navigate]);
 
   useEffect(() => {
     if (userInfo.id) {

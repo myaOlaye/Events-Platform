@@ -23,7 +23,7 @@ const Login = () => {
     if (userInfo.id) {
       navigate("/");
     }
-  }, [userInfo]);
+  }, [userInfo.id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

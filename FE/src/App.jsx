@@ -13,7 +13,7 @@ import UserOrganisedEvents from "./components/UserOrganisedEvents";
 import CreateEvent from "./components/CreateEvent";
 
 function App() {
-  const { setUserInfo } = useContext(UserInfoContext);
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
 
   useEffect(() => {
     getUserInfo()

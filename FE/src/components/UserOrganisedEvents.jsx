@@ -16,7 +16,7 @@ const UserOrganisedEvents = () => {
     if (!userInfo.id) {
       navigate("/");
     }
-  }, [userInfo, navigate]);
+  }, [userInfo.id, navigate]);
 
   useEffect(() => {
     if (userInfo.role)
