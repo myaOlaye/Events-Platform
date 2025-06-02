@@ -1,4 +1,5 @@
 import React from "react";
+
 import { formatDate } from "../utilities/formatDate";
 import { useNavigate, Link } from "react-router-dom";
 import styles from "./EventCard.module.css";

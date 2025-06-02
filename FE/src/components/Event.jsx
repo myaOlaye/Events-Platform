@@ -48,6 +48,12 @@ const Event = () => {
   }, [event_id]);
 
   useEffect(() => {
+    if (!userInfo.id) {
+      navigate("/");
+    }
+  }, [userInfo, navigate]);
+
+  useEffect(() => {
     if (userInfo.id) {
       setLoading((currLoading) => {
         return { ...currLoading, setSignedUp: true };

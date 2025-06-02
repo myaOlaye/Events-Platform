@@ -13,6 +13,12 @@ const UserOrganisedEvents = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!userInfo.id) {
+      navigate("/");
+    }
+  }, [userInfo, navigate]);
+
+  useEffect(() => {
     if (userInfo.role)
       if (userInfo.role !== "staff") {
         return navigate("/unauthorised");
@@ -20,9 +26,6 @@ const UserOrganisedEvents = () => {
   }, [userInfo.role]);
 
   useEffect(() => {
-    // the problem with this is that if userInfo.id is undefined
-    // the below never runs and we never hit the navigate to login
-    // need to have a fix for this, potentially with userLoading in userinfo contect
     if (userInfo.id) {
       setLoading(true);
       getEventsUserCreated(userInfo.id)
@@ -34,6 +37,7 @@ const UserOrganisedEvents = () => {
           if (err.response.status === 500) {
             setError("Failed to fetch events. Please try again later.");
           } else if (err.status === 401) {
+            //probs redundant cause this wouldnt run if there is no valid credientioals
             navigate("/login");
           } else {
             setError(

@@ -29,8 +29,8 @@ export const signupUser = (reqBody) => {
     .post(`/users/signup`, reqBody, {
       withCredentials: true,
     })
-    .then(({ data }) => {
-      return data;
+    .then(({ data: { user } }) => {
+      return user;
     });
 };
 

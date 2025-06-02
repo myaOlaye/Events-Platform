@@ -30,7 +30,7 @@ const initialState = {
 };
 
 const Signup = () => {
-  const { userInfo } = useContext(UserInfoContext);
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const [state, dispatch] = useReducer(signupReducer, initialState);
   const navigate = useNavigate();
 
@@ -38,7 +38,7 @@ const Signup = () => {
     if (userInfo.id) {
       navigate("/");
     }
-  }, []);
+  }, [userInfo]);
 
   const handleChange = (e) => {
     dispatch({
@@ -120,7 +120,14 @@ const Signup = () => {
     };
 
     signupUser(reqBody)
-      .then((user) => {
+      .then(({ id, first_name, last_name, role, email }) => {
+        setUserInfo({
+          id,
+          email,
+          firstName: first_name,
+          lastName: last_name,
+          role,
+        });
         navigate("/");
       })
       .catch((err) => {
