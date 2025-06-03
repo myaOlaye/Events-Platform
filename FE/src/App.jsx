@@ -40,6 +40,7 @@ function App() {
           path="/*"
           element={<p>Theres nothing here. Soon to be Error page</p>}
         ></Route>
+        <Route path="/bad-request" element={<p>400 Bad Request</p>}></Route>
         <Route
           path="/unauthorised"
           element={<p>You are not authorised to view this page</p>}

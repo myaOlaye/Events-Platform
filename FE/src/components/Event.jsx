@@ -4,7 +4,7 @@ import { getEvent } from "../api";
 import { formatDate } from "../utilities/formatDate";
 import { UserInfoContext } from "../contexts/UserInfoContext";
 import { isUserSignedUpForThisEvent } from "../api";
-import { signUpForEvent } from "../api";
+import { signUpForEvent, deleteEvent } from "../api";
 import styles from "./Event.module.css";
 
 const Event = () => {
@@ -14,6 +14,7 @@ const Event = () => {
     event: false,
     signup: false,
     setSignedUp: true,
+    deletingEvent: false,
   });
   const [event, setEvent] = useState({});
   const [isSignedUp, setIsSignedUp] = useState(false);
@@ -101,6 +102,39 @@ const Event = () => {
       });
   };
 
+  const handleDelete = () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this event? It will no longer be visibile to any users and all associated data will be lost. This action cannot be undone."
+    );
+    if (!confirmed) return;
+    setLoading((currLoading) => {
+      return { ...currLoading, deletingEvent: true };
+    });
+    console.log(event.id);
+    deleteEvent(event.id)
+      .then(() => {
+        alert("You have succesfully deleted this event");
+        setLoading((currLoading) => {
+          return { ...currLoading, deletingEvent: false };
+        });
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading((currLoading) => {
+          return { ...currLoading, deletingEvent: false };
+        });
+        if (err.status === 403) {
+          alert("You do not have permission to delete this event.");
+        } else if (err.status === 400) {
+          navigate(`/bad-request`);
+        } else {
+          console.error(err);
+          alert("An unexpected error occurred. Please try again.");
+        }
+      });
+  };
+
   return (
     <div className={styles.container}>
       {error ? (
@@ -119,7 +153,17 @@ const Event = () => {
           <p className={styles.date}>{formatDate(event.date)}</p>
           <p className={styles.description}>{event.description}</p>
 
-          {userInfo.id && loading.setSignedUp ? null : isSignedUp ? (
+          {userInfo.id && userInfo.id === event.created_by ? (
+            <>
+              <p>You are the event organiser</p>
+              <p className={styles.signedUp}>
+                Click here to add this event to your Google Calendar.
+              </p>
+              <button className={styles.deleteButton} onClick={handleDelete}>
+                Delete Event
+              </button>
+            </>
+          ) : loading.setSignedUp ? null : isSignedUp ? (
             <p className={styles.signedUp}>
               You are signed up to this event. Click here to add to your Google
               Calendar.

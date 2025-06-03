@@ -92,14 +92,14 @@ const CreateEvent = () => {
       createEvent(newEvent)
         .then(() => {
           dispatch({ type: "RESET" });
-          navigate("/");
+          navigate("/your-events/organising");
         })
         .catch((err) => {
           const msg =
             err.response?.data?.msg ||
             (err.response?.status === 500
               ? "Something went wrong, try again later."
-              : "Failed to create event.");
+              : "Failed to create event. Please try again later.");
           dispatch({ type: "SET_ERRORS", errors: { general: msg } });
           dispatch({ type: "SET_LOADING", loading: false });
         });

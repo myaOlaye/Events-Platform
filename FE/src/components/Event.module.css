@@ -53,8 +53,25 @@
   transition: background 0.3s;
 }
 
+.deleteButton {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  background-color: rgb(209, 33, 33);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
 .signupButton:hover {
   background-color: #004080;
+}
+
+.deleteButton:hover {
+  background-color: #b40a0a;
 }
 
 .error {

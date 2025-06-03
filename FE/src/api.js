@@ -89,8 +89,8 @@ export const getEventsUserCreated = (user_id) => {
     .get(`/users/${user_id}/created-events`, {
       withCredentials: true,
     })
-    .then(({ data: { events } }) => {
-      return events;
+    .then(({ data: { createdEvents } }) => {
+      return createdEvents;
     });
 };
 
@@ -102,4 +102,10 @@ export const createEvent = (reqBody) => {
     .then(({ data: { signup } }) => {
       return signup;
     });
+};
+
+export const deleteEvent = (eventId) => {
+  return api.delete(`/events/${eventId}`, {
+    withCredentials: true,
+  });
 };

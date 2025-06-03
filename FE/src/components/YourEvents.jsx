@@ -14,8 +14,6 @@ const YourEvents = () => {
 
   const navigate = useNavigate();
 
-  console.log(userInfo);
-
   useEffect(() => {
     if (!userInfo.id) {
       navigate("/");

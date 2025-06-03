@@ -4,6 +4,7 @@ import { useFormAction, useNavigate, Link } from "react-router-dom";
 import { UserInfoContext } from "../contexts/UserInfoContext";
 import { getEvent, getEventsUserCreated } from "../api";
 import StaffSideNav from "./StaffSideNav";
+import EventCard from "./EventCard";
 
 const UserOrganisedEvents = () => {
   const { userInfo } = useContext(UserInfoContext);
@@ -64,7 +65,9 @@ const UserOrganisedEvents = () => {
               <p>Loading...</p>
             ) : events ? (
               <>
-                <button>+ Create a new event</button>
+                <Link to="/create-event">
+                  <button>+ Create a new event</button>
+                </Link>
                 {events.map((event) => (
                   <EventCard key={event.id} event={event} />
                 ))}
