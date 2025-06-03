@@ -109,3 +109,9 @@ export const deleteEvent = (eventId) => {
     withCredentials: true,
   });
 };
+
+export const logout = () => {
+  return api.post(`/users/logout`, null, {
+    withCredentials: true,
+  });
+};

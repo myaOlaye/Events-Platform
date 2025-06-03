@@ -44,6 +44,17 @@ exports.login = (req, res, next) => {
     .catch(next);
 };
 
+exports.logout = (req, res, next) => {
+  res
+    .clearCookie("access_token", {
+      httpOnly: true,
+      sameSite: "Strict",
+      secure: process.env.NODE_ENV === "production",
+    })
+    .status(204)
+    .send();
+};
+
 exports.getEventsByUserId = (req, res, next) => {
   const { user_id } = req.params;
 

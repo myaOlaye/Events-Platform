@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Header.module.css";
 import { UserInfoContext } from "../contexts/UserInfoContext";
 import { formatName } from "../utilities/formatName";
+import { logout } from "../api";
 
 const Header = () => {
-  const { userInfo } = useContext(UserInfoContext);
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
@@ -27,10 +28,11 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    // TODO: Add your logout logic here (e.g., clear auth tokens/context)
-    alert("Logged out!");
-    setDropdownOpen(false);
-    navigate("/login");
+    logout().then(() => {
+      alert("Logged out!");
+      setUserInfo({});
+      navigate("/login");
+    });
   };
 
   return (
@@ -41,35 +43,37 @@ const Header = () => {
       {userInfo.firstName && (
         <p>Welcome back, {formatName(userInfo.firstName)}</p>
       )}
-      <div className={styles.dropdown} ref={dropdownRef}>
-        <button
-          className={styles.dropdownToggle}
-          onClick={() => setDropdownOpen(!dropdownOpen)}
-          aria-haspopup="true"
-          aria-expanded={dropdownOpen}
-        >
-          Menu ▼
-        </button>
-        {dropdownOpen && (
-          <ul className={styles.dropdownMenu}>
-            <li
-              className={styles.dropdownItem}
-              onClick={() => handleNavigate("/")}
-            >
-              Find Events
-            </li>
-            <li
-              className={styles.dropdownItem}
-              onClick={() => handleNavigate("/your-events/attending")}
-            >
-              Your Events
-            </li>
-            <li className={styles.dropdownItem} onClick={handleLogout}>
-              Log Out
-            </li>
-          </ul>
-        )}
-      </div>
+      {userInfo.id && (
+        <div className={styles.dropdown} ref={dropdownRef}>
+          <button
+            className={styles.dropdownToggle}
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+            aria-haspopup="true"
+            aria-expanded={dropdownOpen}
+          >
+            Menu ▼
+          </button>
+          {dropdownOpen && (
+            <ul className={styles.dropdownMenu}>
+              <li
+                className={styles.dropdownItem}
+                onClick={() => handleNavigate("/")}
+              >
+                Find Events
+              </li>
+              <li
+                className={styles.dropdownItem}
+                onClick={() => handleNavigate("/your-events/attending")}
+              >
+                Your Events
+              </li>
+              <li className={styles.dropdownItem} onClick={handleLogout}>
+                Log Out
+              </li>
+            </ul>
+          )}
+        </div>
+      )}
     </header>
   );
 };

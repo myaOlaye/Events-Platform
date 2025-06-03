@@ -3,6 +3,7 @@ const authenticate = require("../middlewear/authenticate");
 const {
   signup,
   login,
+  logout,
   getEventsByUserId,
   getSignUpStatus,
   getCreatedEvents,
@@ -14,6 +15,7 @@ const authorise = require("../middlewear/authorise");
 
 usersRouter.post("/signup", signup);
 usersRouter.post("/login", login);
+usersRouter.post("/logout", logout);
 usersRouter.get(
   "/:user_id/events",
   authenticate,
