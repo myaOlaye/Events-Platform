@@ -4,6 +4,7 @@ import styles from "./Header.module.css";
 import { UserInfoContext } from "../contexts/UserInfoContext";
 import { formatName } from "../utilities/formatName";
 import { logout } from "../api";
+import { IoMenu } from "react-icons/io5";
 
 const Header = () => {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
@@ -11,7 +12,6 @@ const Header = () => {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -40,40 +40,44 @@ const Header = () => {
       <div className={styles.logo} onClick={() => navigate("/")}>
         EventsPlatform
       </div>
-      {userInfo.firstName && (
-        <p>Welcome back, {formatName(userInfo.firstName)}</p>
-      )}
-      {userInfo.id && (
-        <div className={styles.dropdown} ref={dropdownRef}>
-          <button
-            className={styles.dropdownToggle}
-            onClick={() => setDropdownOpen(!dropdownOpen)}
-            aria-haspopup="true"
-            aria-expanded={dropdownOpen}
-          >
-            Menu ▼
-          </button>
-          {dropdownOpen && (
-            <ul className={styles.dropdownMenu}>
-              <li
-                className={styles.dropdownItem}
-                onClick={() => handleNavigate("/")}
-              >
-                Find Events
-              </li>
-              <li
-                className={styles.dropdownItem}
-                onClick={() => handleNavigate("/your-events/attending")}
-              >
-                Your Events
-              </li>
-              <li className={styles.dropdownItem} onClick={handleLogout}>
-                Log Out
-              </li>
-            </ul>
-          )}
-        </div>
-      )}
+      <div className={styles.headerRight}>
+        {userInfo.firstName && (
+          <p className={styles.welcomeMessage}>
+            Welcome back, {formatName(userInfo.firstName)}
+          </p>
+        )}
+        {userInfo.id && (
+          <div className={styles.dropdown} ref={dropdownRef}>
+            <button
+              className={styles.dropdownToggle}
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              aria-haspopup="true"
+              aria-expanded={dropdownOpen}
+            >
+              <IoMenu className={styles.menuIcon} size={24} />
+            </button>
+            {dropdownOpen && (
+              <ul className={styles.dropdownMenu}>
+                <li
+                  className={styles.dropdownItem}
+                  onClick={() => handleNavigate("/")}
+                >
+                  Find Events
+                </li>
+                <li
+                  className={styles.dropdownItem}
+                  onClick={() => handleNavigate("/your-events/attending")}
+                >
+                  Your Events
+                </li>
+                <li className={styles.dropdownItem} onClick={handleLogout}>
+                  Log Out
+                </li>
+              </ul>
+            )}
+          </div>
+        )}
+      </div>
     </header>
   );
 };

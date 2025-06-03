@@ -8,7 +8,7 @@ const StaffSideNav = () => {
   return (
     <div className={styles.sideNav}>
       <p onClick={() => navigate("/your-events/attending")}>
-        Events you are attending
+        Events you signed up for
       </p>
       <p onClick={() => navigate("/your-events/organising")}>
         Events you are organising

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { UserInfoContext } from "../contexts/UserInfoContext";
 import { createEvent } from "../api";
 import axios from "axios";
+import styles from "./CreateEvent.module.css";
 
 const initialState = {
   title: "",
@@ -120,12 +121,21 @@ const CreateEvent = () => {
     }
   };
 
+  const getLocalDateTime = () => {
+    const now = new Date();
+    now.setSeconds(0, 0); // optional: remove seconds & milliseconds
+    const offset = now.getTimezoneOffset();
+    const local = new Date(now.getTime() - offset * 60 * 1000);
+    return local.toISOString().slice(0, 16);
+  };
+
   return (
-    <>
-      <h2>Post a new event</h2>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3">
-          <Form.Label>Event Name</Form.Label>
+    <div className={styles.eventFormContainer}>
+      <h1 className={styles.formTitle}>Post a New Event</h1>
+      <Form onSubmit={handleSubmit} className={styles.eventForm}>
+        {/* Event Name */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label className={styles.label}>Event Name</Form.Label>
           <Form.Control
             type="text"
             name="title"
@@ -138,18 +148,24 @@ const CreateEvent = () => {
               })
             }
             isInvalid={!!state.errors.title}
+            className={styles.input}
+            placeholder="Enter event title"
           />
-          <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback
+            type="invalid"
+            className={styles.errorFeedback}
+          >
             {state.errors.title}
           </Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Description</Form.Label>
+        {/* Description */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label className={styles.label}>Description</Form.Label>
           <Form.Control
             as="textarea"
+            rows={4}
             name="description"
-            rows={3}
             value={state.description}
             onChange={(e) =>
               dispatch({
@@ -159,14 +175,20 @@ const CreateEvent = () => {
               })
             }
             isInvalid={!!state.errors.description}
+            className={styles.textarea}
+            placeholder="Describe your event"
           />
-          <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback
+            type="invalid"
+            className={styles.errorFeedback}
+          >
             {state.errors.description}
           </Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Location</Form.Label>
+        {/* Location */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label className={styles.label}>Location</Form.Label>
           <Form.Control
             type="text"
             name="location"
@@ -179,14 +201,20 @@ const CreateEvent = () => {
               })
             }
             isInvalid={!!state.errors.location}
+            className={styles.input}
+            placeholder="Where is the event?"
           />
-          <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback
+            type="invalid"
+            className={styles.errorFeedback}
+          >
             {state.errors.location}
           </Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Date & Time</Form.Label>
+        {/* Date & Time */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label className={styles.label}>Date & Time</Form.Label>
           <Form.Control
             type="datetime-local"
             name="date"
@@ -199,14 +227,22 @@ const CreateEvent = () => {
               })
             }
             isInvalid={!!state.errors.date}
+            className={styles.input}
+            min={getLocalDateTime()}
           />
-          <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback
+            type="invalid"
+            className={styles.errorFeedback}
+          >
             {state.errors.date}
           </Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Event Image</Form.Label>
+        {/* Event Image */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label className={styles.label}>
+            Event Image (Optional)
+          </Form.Label>
           <Form.Control
             type="file"
             accept="image/*"
@@ -217,14 +253,22 @@ const CreateEvent = () => {
                 value: e.target.files[0],
               })
             }
+            className={styles.fileInput}
           />
         </Form.Group>
 
+        {/* General Errors */}
         {state.errors.general && (
-          <p className="text-danger">{state.errors.general}</p>
+          <p className={styles.generalError}>{state.errors.general}</p>
         )}
 
-        <Button variant="primary" type="submit" disabled={state.loading}>
+        {/* Submit Button */}
+        <Button
+          variant="primary"
+          type="submit"
+          disabled={state.loading}
+          className={styles.submitBtn}
+        >
           {state.loading ? (
             <Spinner animation="border" size="sm" />
           ) : (
@@ -232,7 +276,7 @@ const CreateEvent = () => {
           )}
         </Button>
       </Form>
-    </>
+    </div>
   );
 };
 

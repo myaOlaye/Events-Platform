@@ -3,7 +3,7 @@ import { getEventsUserIsSignedUpTo } from "../api";
 import { UserInfoContext } from "../contexts/UserInfoContext";
 import EventCard from "./EventCard";
 import StaffSideNav from "./StaffSideNav";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import styles from "./YourEvents.module.css";
 
 const YourEvents = () => {
@@ -48,15 +48,23 @@ const YourEvents = () => {
     <div className={styles.pageContainer}>
       {userInfo.role === "staff" && <StaffSideNav />}
       <div className={styles.content}>
-        <h2 className={styles.eventHeading}>Events you are signed up for</h2>
+        <h2 className={styles.eventHeading}>Events you signed up for</h2>
         {error ? (
           <p className={styles.error}>{error}</p>
         ) : loading ? (
           <p className={styles.loading}>Loading...</p>
         ) : (
-          events.map((event) => {
-            return <EventCard key={event.id} event={event}></EventCard>;
-          })
+          <>
+            {events.length === 0 && (
+              <p>
+                You are not signed up to any events.{" "}
+                <Link to="/">Click here to browse events.</Link>
+              </p>
+            )}
+            {events.map((event) => {
+              return <EventCard key={event.id} event={event}></EventCard>;
+            })}
+          </>
         )}
       </div>
     </div>

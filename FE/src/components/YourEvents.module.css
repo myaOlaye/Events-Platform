@@ -27,14 +27,11 @@
   color: #555;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .pageContainer {
-    flex-direction: column;
-    padding-left: 0;
-  }
+.pageContainer {
+  flex-direction: column;
+  padding-left: 0;
+}
 
-  .content {
-    padding: 1rem;
-  }
+.content {
+  padding: 1rem;
 }

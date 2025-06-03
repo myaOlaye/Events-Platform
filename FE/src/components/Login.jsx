@@ -6,6 +6,7 @@ import { isValidEmail } from "../utilities/formValidationFunctions";
 import { loginUser } from "../api";
 import { UserInfoContext } from "../contexts/UserInfoContext";
 import { getUserInfo } from "../api";
+import styles from "./Login.module.css";
 const Login = () => {
   const { userInfo } = useContext(UserInfoContext);
   const [loginFormData, setLoginFormData] = useState({
@@ -95,48 +96,59 @@ const Login = () => {
   };
 
   return (
-    <>
-      <h2>Login</h2>
-      <Form onSubmit={handleSubmit}>
-        <fieldset>
-          <Form.Group className="mb-3" controlId="formGroupEmail">
-            <Form.Label>Email address</Form.Label>
+    <div className={styles.loginContainer}>
+      <h2 className={styles.heading}>Login</h2>
+      <Form onSubmit={handleSubmit} className={styles.form}>
+        <fieldset className={styles.fieldset}>
+          <Form.Group className={styles.formGroup} controlId="formGroupEmail">
+            <Form.Label className={styles.label}>Email address</Form.Label>
             <Form.Control
               type="email"
               placeholder="Enter email"
               name="email"
               value={loginFormData.email}
               onChange={handleChange}
+              className={styles.input}
             />
-            {formErrors.email}
+            {formErrors.email && (
+              <p className={styles.error}>{formErrors.email}</p>
+            )}
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formGroupPassword">
-            <Form.Label>Password</Form.Label>
+          <Form.Group
+            className={styles.formGroup}
+            controlId="formGroupPassword"
+          >
+            <Form.Label className={styles.label}>Password</Form.Label>
             <Form.Control
               type="password"
               placeholder="Password"
               name="password"
               value={loginFormData.password}
               onChange={handleChange}
+              className={styles.input}
             />
-            {formErrors.password}
+            {formErrors.password && (
+              <p className={styles.error}>{formErrors.password}</p>
+            )}
           </Form.Group>
-          <Form.Group as={Row} className="mb-3">
+          <Form.Group as={Row} className={styles.submitRow}>
             <Col sm={{ span: 10, offset: 2 }}>
               {loading ? (
-                <p>Loading...</p> // make a spinner soon
+                <p className={styles.loading}>Loading...</p>
               ) : (
-                <button type="submit">Log in</button>
+                <button type="submit" className={styles.submitButton}>
+                  Log in
+                </button>
               )}
             </Col>
           </Form.Group>
         </fieldset>
-        {loginError && <p>{loginError}</p>}
-      </Form>{" "}
-      <p>
-        Don't have an account? <Link to={`/signup`}>Sign up here.</Link>
+        {loginError && <p className={styles.error}>{loginError}</p>}
+      </Form>
+      <p className={styles.signupPrompt}>
+        Don't have an account? <Link to="/signup">Sign up here.</Link>
       </p>
-    </>
+    </div>
   );
 };
 

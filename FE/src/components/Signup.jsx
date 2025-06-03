@@ -10,6 +10,7 @@ import {
 } from "../utilities/formValidationFunctions";
 import { signupUser } from "../api";
 import { UserInfoContext } from "../contexts/UserInfoContext";
+import styles from "./Signup.module.css";
 
 const initialState = {
   formInputs: {
@@ -148,55 +149,80 @@ const Signup = () => {
   };
 
   return (
-    <>
-      <h2>Sign Up</h2>
-      <Form onSubmit={handleSubmit}>
-        <fieldset disabled={state.loading}>
-          <Form.Group className="mb-3" controlId="formGroupFirstName">
-            <Form.Label>First name</Form.Label>
+    <div className={styles.signupContainer}>
+      <h2 className={styles.heading}>Sign Up</h2>
+      <Form onSubmit={handleSubmit} className={styles.form}>
+        <fieldset disabled={state.loading} className={styles.fieldset}>
+          <Form.Group
+            className={styles.formGroup}
+            controlId="formGroupFirstName"
+          >
+            <Form.Label className={styles.label}>First name</Form.Label>
             <Form.Control
-              type="name"
+              type="text"
               name="firstName"
               placeholder="Enter first name"
               value={state.formInputs.firstName}
               onChange={handleChange}
+              className={styles.input}
             />
-            {state.errors.firstName}
+            {state.errors.firstName && (
+              <p className={styles.error}>{state.errors.firstName}</p>
+            )}
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formGroupLastName">
-            <Form.Label>Last name</Form.Label>
+
+          <Form.Group
+            className={styles.formGroup}
+            controlId="formGroupLastName"
+          >
+            <Form.Label className={styles.label}>Last name</Form.Label>
             <Form.Control
-              type="name"
-              placeholder="Enter last name"
+              type="text"
               name="lastName"
+              placeholder="Enter last name"
               value={state.formInputs.lastName}
               onChange={handleChange}
+              className={styles.input}
             />
-            {state.errors.lastName}
+            {state.errors.lastName && (
+              <p className={styles.error}>{state.errors.lastName}</p>
+            )}
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formGroupEmail">
-            <Form.Label>Email address</Form.Label>
+
+          <Form.Group className={styles.formGroup} controlId="formGroupEmail">
+            <Form.Label className={styles.label}>Email address</Form.Label>
             <Form.Control
               type="email"
               placeholder="Enter email"
               name="email"
               value={state.formInputs.email}
               onChange={handleChange}
+              className={styles.input}
             />
-            {state.errors.email}
+            {state.errors.email && (
+              <p className={styles.error}>{state.errors.email}</p>
+            )}
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formGroupPassword">
-            <Form.Label>Password</Form.Label>
+
+          <Form.Group
+            className={styles.formGroup}
+            controlId="formGroupPassword"
+          >
+            <Form.Label className={styles.label}>Password</Form.Label>
             <Form.Control
               type="password"
               placeholder="Password"
               name="password"
               value={state.formInputs.password}
               onChange={handleChange}
+              className={styles.input}
             />
-            {state.errors.password}
+            {state.errors.password && (
+              <p className={styles.error}>{state.errors.password}</p>
+            )}
           </Form.Group>
-          <Col sm={10}>
+
+          <div className={styles.roleSelect}>
             <Form.Check
               type="radio"
               label="Staff"
@@ -205,6 +231,7 @@ const Signup = () => {
               value="staff"
               checked={state.formInputs.role === "staff"}
               onChange={handleChange}
+              className={styles.radio}
             />
             <Form.Check
               type="radio"
@@ -214,26 +241,36 @@ const Signup = () => {
               value="community"
               checked={state.formInputs.role === "community"}
               onChange={handleChange}
+              className={styles.radio}
             />
-          </Col>
-          <Form.Group as={Row} className="mb-3">
+          </div>
+
+          <Form.Group as={Row} className={styles.submitRow}>
             <Col sm={{ span: 10, offset: 2 }}>
               {state.loading ? (
-                <p>Loading...</p> // make a spinner soon
+                <p className={styles.loading}>Loading...</p>
               ) : (
-                <Button type="submit" disabled={state.loading}>
+                <Button
+                  type="submit"
+                  className={styles.submitButton}
+                  disabled={state.loading}
+                >
                   Sign up
                 </Button>
               )}
             </Col>
           </Form.Group>
-          {state.errors.signup && <p>{state.errors.signup}</p>}
+
+          {state.errors.signup && (
+            <p className={styles.error}>{state.errors.signup}</p>
+          )}
         </fieldset>
+
+        <p className={styles.loginPrompt}>
+          Already have an account? <Link to="/login">Login here.</Link>
+        </p>
       </Form>
-      <p>
-        Already have an account? <Link to={`/login`}>Login here.</Link>
-      </p>
-    </>
+    </div>
   );
 };
 

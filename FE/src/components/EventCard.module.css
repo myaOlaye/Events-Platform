@@ -10,11 +10,12 @@
   border-radius: 12px;
   overflow: hidden;
   margin: 2rem auto;
-  width: 50%;
+  width: 90%;
   max-width: 900px;
   background-color: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease-in-out;
+  min-height: 320px; /* Ensures consistent card height */
 }
 
 .card:hover {
@@ -23,17 +24,24 @@
 
 .eventImage {
   width: 100%;
-  height: auto;
+  height: 220px;
   object-fit: cover;
+  object-position: center;
+}
+
+.cardContent {
+  flex-grow: 1;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .cardContent {
   padding: 1rem;
-}
-
-.cardContent h2 {
-  font-size: 1.5rem;
-  margin: 0 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .location {
@@ -46,6 +54,12 @@
   font-size: 0.95rem;
   color: #444;
   margin: 0.5rem 0;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Number of lines to display */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .date {
@@ -54,12 +68,11 @@
   margin-top: 1rem;
 }
 
-/* Responsive tweaks */
-@media (min-width: 1028px) {
+/* Tablet & Desktop Layout */
+@media (min-width: 840px) {
   .card {
-    width: 70%;
     flex-direction: row;
-    align-items: center;
+    height: 280px; /* Locks in card height */
   }
 
   .eventImage {
@@ -68,14 +81,32 @@
   }
 
   .cardContent {
-    width: 60%;
+    width: 55%;
+    padding: 1.5rem;
   }
 }
 
-/* @media (min-width: 500px) {
+/* Small mobile devices */
+@media (max-width: 500px) {
   .card {
-    width: 50%;
-    flex-direction: row;
-    align-items: center;
+    width: 95%;
+    margin: 1rem auto;
+    border-radius: 8px;
   }
-} */
+
+  .eventImage {
+    height: 180px;
+  }
+
+  .cardContent h2 {
+    font-size: 1.25rem;
+  }
+
+  .description {
+    font-size: 0.9rem;
+  }
+
+  .date {
+    font-size: 0.8rem;
+  }
+}

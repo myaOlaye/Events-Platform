@@ -9,6 +9,13 @@
   position: relative;
   z-index: 3;
 }
+.headerRight {
+  display: flex;
+  align-items: center;
+}
+.welcomeMessage {
+  align-self: right;
+}
 
 .logo {
   font-weight: bold;
@@ -17,7 +24,7 @@
   user-select: none;
 }
 
-.dropdown {
+.menuIcon {
   position: relative;
 }
 

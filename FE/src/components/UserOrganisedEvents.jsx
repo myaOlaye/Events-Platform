@@ -63,10 +63,10 @@ const UserOrganisedEvents = () => {
               <p>{error}</p>
             ) : loading ? (
               <p>Loading...</p>
-            ) : events ? (
+            ) : events.length > 0 ? (
               <>
                 <Link to="/create-event">
-                  <button>+ Create a new event</button>
+                  <button>+ Create new event</button>
                 </Link>
                 {events.map((event) => (
                   <EventCard key={event.id} event={event} />
@@ -74,9 +74,12 @@ const UserOrganisedEvents = () => {
               </>
             ) : (
               <>
-                <p>You have not organised any events yet</p>
+                <p>
+                  You have not posted any events yet. Click below to upload an
+                  event.
+                </p>
                 <Link to="/create-event">
-                  <button>+ Create a new event</button>
+                  <button>+ Create new event</button>
                 </Link>
               </>
             )}
