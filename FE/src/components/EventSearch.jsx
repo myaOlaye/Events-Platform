@@ -55,7 +55,7 @@ const EventSearch = () => {
 
   return (
     <>
-      <h1>Events</h1>
+      <h1 className={styles.header}>Find an Event</h1>
       <form onSubmit={handleSubmit} className={styles.searchForm}>
         <input
           className={styles.searchInput}
