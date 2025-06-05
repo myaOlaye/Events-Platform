@@ -9,7 +9,6 @@ exports.customErrorHandler = (err, req, res, next) => {
 };
 
 exports.postgressErrorHandler = (err, req, res, next) => {
-  console.log(err.code);
   if (err.code === "23505") {
     res.status(409).send({ msg: "Conflict" });
   } else if (err.code === "22P02") {

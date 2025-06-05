@@ -18,22 +18,20 @@
   overflow-y: auto;
 }
 
-/* Content wrapper fills the remaining width with left margin for sidebar */
 .contentWrapper {
   margin-left: 300px; /* space for sidebar */
   flex-grow: 1;
   display: flex;
 
-  justify-content: center; /* center content horizontally in this area */
+  justify-content: center;
   padding: 20px;
-  min-height: calc(100vh - 60px); /* full height minus header */
+  min-height: calc(100vh - 60px);
   box-sizing: border-box;
 }
 
-/* Actual content area with max width */
 .content {
   width: 100%;
-  max-width: 900px; /* or whatever max width you want */
+  max-width: 900px;
 }
 
 @media (max-width: 768px) {

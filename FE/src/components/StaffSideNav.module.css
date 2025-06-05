@@ -6,13 +6,12 @@
   border-right: none;
   border-bottom: 1px solid #d0d7de;
   flex-direction: row;
-  justify-content: left;
+  justify-content: space-evenly;
   padding: 1rem;
   z-index: 2;
 }
 
 .sideNav p {
-  margin-left: 30px;
   cursor: pointer;
   color: #1a73e8;
   transition: color 0.2s;

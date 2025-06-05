@@ -1,6 +1,17 @@
 const db = require("../db/connection");
 
-exports.selectEvents = () => {
+exports.selectEvents = (search) => {
+  if (search) {
+    const searchQuery = `%${search}%`;
+    return db
+      .query(
+        `SELECT * FROM events WHERE title ILIKE $1 OR description ILIKE $1 OR location ILIKE $1`,
+        [searchQuery]
+      )
+      .then(({ rows }) => {
+        return rows;
+      });
+  }
   return db.query("SELECT * FROM events").then(({ rows }) => {
     return rows;
   });

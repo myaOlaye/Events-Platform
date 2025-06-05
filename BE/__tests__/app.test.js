@@ -50,6 +50,59 @@ describe("GET /api/events", () => {
         expect(msg).toBe("No token");
       });
   });
+  describe("200: returns events with search query param if a match is found", () => {
+    test("Music Festival Event", () => {
+      const token = createToken("community");
+      const cookie = `access_token=${token}`;
+      return request(app)
+        .get("/api/events?search=Music")
+        .set("Cookie", [cookie])
+        .expect(200)
+        .then(({ body: { events } }) => {
+          expect(events.length === 1);
+
+          expect(events[0]).toMatchObject({
+            title: "Spring Music Festival",
+            description: "A festival celebrating local music talents.",
+            location: "Central Park",
+            created_by: 3,
+            image_url:
+              "https://www.centralpark.com/downloads/10655/download/NY-Philharmonic-Great-Lawn-Central-Park.jpg?cb=31e2ddc7d0c30b379a282f96acdac9ff&w=640",
+          });
+        });
+    });
+    test("Art and Craft Event", () => {
+      const token = createToken("community");
+      const cookie = `access_token=${token}`;
+      return request(app)
+        .get("/api/events?search=craft")
+        .set("Cookie", [cookie])
+        .expect(200)
+        .then(({ body: { events } }) => {
+          expect(events.length === 1);
+
+          expect(events[0]).toMatchObject({
+            title: "Art & Craft Fair",
+            description: "Exhibition and sale of handmade crafts.",
+            location: "Downtown Art Hall",
+            created_by: 3,
+            image_url:
+              "https://cdn.shopify.com/s/files/1/1246/6441/files/Homepage-Slide-1.jpg?v=1651762195",
+          });
+        });
+    });
+    test("Returns nothing if no related events", () => {
+      const token = createToken("community");
+      const cookie = `access_token=${token}`;
+      return request(app)
+        .get("/api/events?search=witches")
+        .set("Cookie", [cookie])
+        .expect(200)
+        .then(({ body: { events } }) => {
+          expect(events.length === 0);
+        });
+    });
+  });
 });
 
 describe("POST /api/events", () => {

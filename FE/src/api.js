@@ -4,11 +4,14 @@ const api = axios.create({
   baseURL: "http://localhost:9090/api",
 });
 
-export const getEvents = () => {
+export const getEvents = (searchTerm = "") => {
+  const params = {};
+
+  if (searchTerm) {
+    params.search = searchTerm;
+  }
   return api
-    .get(`/events`, {
-      withCredentials: true,
-    })
+    .get(`/events`, { params, withCredentials: true })
     .then(({ data: { events } }) => {
       return events;
     });

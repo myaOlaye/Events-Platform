@@ -6,8 +6,9 @@ const {
 } = require("../models/events-models");
 
 exports.getEvents = (req, res, next) => {
-  // eventually will add search query param here
-  selectEvents()
+  const { search } = req.query;
+
+  selectEvents(search)
     .then((events) => {
       res.status(200).send({ events });
     })
