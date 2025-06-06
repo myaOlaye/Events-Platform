@@ -121,7 +121,7 @@ const Login = () => {
             <Form.Label className={styles.label}>Password</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Password"
+              placeholder="Enter password"
               name="password"
               value={loginFormData.password}
               onChange={handleChange}

@@ -34,7 +34,7 @@
   color: #333;
 }
 
-.signedUp {
+.googleCalButton {
   margin-top: 1.2rem;
   color: #2e7d32;
   font-weight: 500;
@@ -64,6 +64,7 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background 0.3s;
+  width: 180px;
 }
 
 .signupButton:hover {
@@ -84,6 +85,13 @@
   text-align: center;
   font-style: italic;
   color: #666;
+}
+
+.eventCreatorInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Responsive tweaks */

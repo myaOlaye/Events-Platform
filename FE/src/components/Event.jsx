@@ -135,6 +135,22 @@ const Event = () => {
       });
   };
 
+  const generateGoogleCalendarLink = (event) => {
+    const startDate = new Date(event.date)
+      .toISOString()
+      .replace(/-|:|\.\d\d\d/g, "");
+    // For simplicity, assume 1 hour event. Adjust as needed.
+    const endDate = new Date(new Date(event.date).getTime() + 60 * 60 * 1000)
+      .toISOString()
+      .replace(/-|:|\.\d\d\d/g, "");
+
+    const details = encodeURIComponent(event.description || "");
+    const location = encodeURIComponent(event.location || "");
+    const title = encodeURIComponent(event.title || "Event");
+
+    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDate}/${endDate}&details=${details}&location=${location}&sf=true&output=xml`;
+  };
+
   return (
     <div className={styles.container}>
       {error ? (
@@ -154,20 +170,32 @@ const Event = () => {
           <p className={styles.description}>{event.description}</p>
 
           {userInfo.id && userInfo.id === event.created_by ? (
-            <>
-              <p>You are the event organiser</p>
-              <p className={styles.signedUp}>
-                Click here to add this event to your Google Calendar.
-              </p>
+            <div className={styles.eventCreatorInfo}>
+              <a
+                href={generateGoogleCalendarLink(event)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.googleCalButton}
+              >
+                You are the event organiser. Click here to add to your Google
+                Calendar.
+              </a>
               <button className={styles.deleteButton} onClick={handleDelete}>
                 Delete Event
               </button>
-            </>
+            </div>
           ) : loading.setSignedUp ? null : isSignedUp ? (
-            <p className={styles.signedUp}>
-              You are signed up to this event. Click here to add to your Google
-              Calendar.
-            </p>
+            <>
+              <a
+                href={generateGoogleCalendarLink(event)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.googleCalButton}
+              >
+                You are signed up to this event. Click here to add to your
+                Google Calendar.
+              </a>
+            </>
           ) : loading.signup ? (
             <p className={styles.loading}>Signing you up...</p>
           ) : (
