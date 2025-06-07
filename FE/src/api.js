@@ -1,8 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL:
-    "https://684423c1700eac789cad5382--launchpadeventsplatform.netlify.app/",
+  baseURL: "https://events-platform-uvlq.onrender.com",
 });
 
 export const getEvents = (searchTerm = "") => {

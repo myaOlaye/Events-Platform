@@ -15,7 +15,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173", // Local development environment,
-      "https://684423c1700eac789cad5382--launchpadeventsplatform.netlify.app",
+      "https://68442675adac96e9c08d18fa--launchpadeventsplatform.netlify.app",
     ],
     credentials: true,
   })
@@ -26,8 +26,6 @@ app.use(
 app.use(cookieParser());
 
 app.use("/api", apiRouter);
-
-// app.all("*", invalidUrlErrorHandler); come back and figure out why this isnt working
 
 app.use(customErrorHandler);
 
