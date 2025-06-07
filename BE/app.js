@@ -14,8 +14,8 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
-      "http://localhost:5173", // Local development environment,
-      "https://684427c3700eac85e2ad52c6--launchpadeventsplatform.netlify.app",
+      "http://localhost:5173",
+      "https://launchpadeventsplatform.netlify.app/",
     ],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
