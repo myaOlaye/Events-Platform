@@ -1,4 +1,5 @@
 {
+  "main": "BE/listen.js",
   "dependencies": {
     "@cloudinary/react": "^1.14.3",
     "@cloudinary/url-gen": "^1.21.0",
@@ -18,7 +19,9 @@
     "setup-dbs": "psql -f ./BE/db/setup.sql",
     "seed": "node ./BE/db/seeds/run-seed.js",
     "test": "jest",
-    "dev": "nodemon ./BE/listen.js"
+    "dev": "nodemon ./BE/listen.js",
+    "start": "node listen.js",
+    "seed-prod": "NODE_ENV=production npm run seed"
   },
   "devDependencies": {
     "nodemon": "^3.1.10",
