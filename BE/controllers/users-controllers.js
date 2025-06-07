@@ -16,7 +16,7 @@ exports.signup = (req, res, next) => {
         .cookie("access_token", token, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
-          sameSite: "Strict",
+          sameSite: "None",
           maxAge: 3600000,
         })
         .send({ user });
@@ -34,7 +34,7 @@ exports.login = (req, res, next) => {
         .cookie("access_token", token, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
-          sameSite: "Strict",
+          sameSite: "None",
           maxAge: 3600000,
         })
         .send({ userData });
@@ -46,7 +46,7 @@ exports.logout = (req, res, next) => {
   res
     .clearCookie("access_token", {
       httpOnly: true,
-      sameSite: "Strict",
+      sameSite: "None",
       secure: process.env.NODE_ENV === "production",
     })
     .status(204)
