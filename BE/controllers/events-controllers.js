@@ -40,7 +40,6 @@ exports.deleteEvent = (req, res, next) => {
   const { event_id } = req.params;
   const user_id = req.user.id;
 
-  // first check if exists then delete
   const promises = [selectEvent(event_id), removeEvent(event_id, user_id)];
 
   Promise.all(promises)

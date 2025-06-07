@@ -1,0 +1,76 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  width: 90%;
+  background-color: whitesmoke;
+  margin-top: 2rem;
+  border-radius: 10px;
+}
+
+.heading {
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0.3rem 0;
+  color: #444;
+  text-align: left;
+  margin-right: 8px;
+}
+
+.searchInput {
+  width: 97.5%;
+  padding: 0.55rem 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  color: black;
+}
+
+.attendeeList {
+  width: 100%;
+  border-radius: 5px;
+  display: flex;
+  justify-self: center;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.attendee {
+  background-color: white;
+  border-radius: 5px;
+  border-bottom: 1px solid #d9d7d7;
+  border-left: 6px solid #0077cc;
+  padding: 0.5rem 0.5rem;
+  margin: 0;
+  font-size: 0.9rem;
+  color: #333;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.message {
+  font-size: 1rem;
+  color: #666;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.attendeeCount {
+  font-size: 0.8rem;
+  background-color: #0077cc;
+  padding: 1px 8px;
+  border-radius: 5px;
+  color: white;
+}
+
+.attendeeInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}

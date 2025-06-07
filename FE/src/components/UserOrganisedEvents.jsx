@@ -1,10 +1,10 @@
-import React from "react";
-import { useContext, useState, useEffect } from "react";
-import { useFormAction, useNavigate, Link } from "react-router-dom";
+import React, { useContext, useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { UserInfoContext } from "../contexts/UserInfoContext";
-import { getEvent, getEventsUserCreated } from "../api";
+import { getEventsUserCreated } from "../api";
 import StaffSideNav from "./StaffSideNav";
 import EventCard from "./EventCard";
+import styles from "./UserOrganisedEvents.module.css";
 
 const UserOrganisedEvents = () => {
   const { userInfo } = useContext(UserInfoContext);
@@ -20,11 +20,10 @@ const UserOrganisedEvents = () => {
   }, [userInfo.id, navigate]);
 
   useEffect(() => {
-    if (userInfo.role)
-      if (userInfo.role !== "staff") {
-        return navigate("/unauthorised");
-      }
-  }, [userInfo.role]);
+    if (userInfo.role && userInfo.role !== "staff") {
+      navigate("/unauthorised");
+    }
+  }, [userInfo.role, navigate]);
 
   useEffect(() => {
     if (userInfo.id) {
@@ -35,10 +34,9 @@ const UserOrganisedEvents = () => {
           setLoading(false);
         })
         .catch((err) => {
-          if (err.response.status === 500) {
+          if (err.response?.status === 500) {
             setError("Failed to fetch events. Please try again later.");
           } else if (err.status === 401) {
-            //probs redundant cause this wouldnt run if there is no valid credientioals
             navigate("/login");
           } else {
             setError(
@@ -48,42 +46,67 @@ const UserOrganisedEvents = () => {
           setLoading(false);
         });
     }
-  }, [userInfo.id]);
+  }, [userInfo.id, navigate]);
 
   return (
     <>
-      {userInfo.role && userInfo.role === "staff" && (
-        <div className="container">
-          <div className="sideNavWrapper">
+      <a
+        href="#mainContent"
+        className={`${styles.srOnly} ${styles.srOnlyFocusable}`}
+      >
+        Skip to main content
+      </a>
+
+      {userInfo.role === "staff" && (
+        <div className={styles.container}>
+          <div className={styles.navWrapper}>
             <StaffSideNav />
           </div>
-          <main className="content">
-            <h2>Events you are organising</h2>
-            {error ? (
-              <p>{error}</p>
-            ) : loading ? (
-              <p>Loading...</p>
-            ) : events.length > 0 ? (
-              <>
-                <Link to="/create-event">
-                  <button>+ Create new event</button>
-                </Link>
-                {events.map((event) => (
-                  <EventCard key={event.id} event={event} />
-                ))}
-              </>
-            ) : (
-              <>
-                <p>
-                  You have not posted any events yet. Click below to upload an
-                  event.
+
+          <div className={styles.contentWrapper}>
+            <main
+              id="mainContent"
+              className={styles.content}
+              tabIndex={-1}
+              aria-live="polite"
+              aria-busy={loading}
+            >
+              <h1>Events you are organising</h1>
+
+              {error && (
+                <p role="alert" className={styles.error}>
+                  {error}
                 </p>
-                <Link to="/create-event">
-                  <button>+ Create new event</button>
-                </Link>
-              </>
-            )}
-          </main>
+              )}
+
+              {loading && <p>Loading events...</p>}
+
+              {!loading && !error && (
+                <>
+                  <Link to="/create-event">
+                    <button
+                      type="button"
+                      className={styles.createButton}
+                      aria-label="Create a new event"
+                    >
+                      + Create new event
+                    </button>
+                  </Link>
+
+                  {events.length > 0 ? (
+                    events.map((event) => (
+                      <EventCard key={event.id} event={event} />
+                    ))
+                  ) : (
+                    <p>
+                      You have not posted any events yet. Click the button above
+                      to create your first one.
+                    </p>
+                  )}
+                </>
+              )}
+            </main>
+          </div>
         </div>
       )}
     </>

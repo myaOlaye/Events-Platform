@@ -151,83 +151,122 @@ const Signup = () => {
   return (
     <div className={styles.signupContainer}>
       <h2 className={styles.heading}>Sign Up</h2>
-      <Form onSubmit={handleSubmit} className={styles.form}>
+
+      <Form onSubmit={handleSubmit} className={styles.form} noValidate>
         <fieldset disabled={state.loading} className={styles.fieldset}>
-          <Form.Group
-            className={styles.formGroup}
-            controlId="formGroupFirstName"
-          >
-            <Form.Label className={styles.label}>First name</Form.Label>
+          <legend className={styles.srOnly}>Signup form fields</legend>
+
+          <Form.Group className={styles.formGroup}>
+            <Form.Label className={styles.label} htmlFor="firstNameInput">
+              First name
+            </Form.Label>
             <Form.Control
               type="text"
+              id="firstNameInput"
               name="firstName"
               placeholder="Enter first name"
               value={state.formInputs.firstName}
               onChange={handleChange}
               className={styles.input}
+              aria-invalid={!!state.errors.firstName}
+              aria-describedby={
+                state.errors.firstName ? "firstNameError" : undefined
+              }
+              required
             />
             {state.errors.firstName && (
-              <p className={styles.error}>{state.errors.firstName}</p>
+              <p id="firstNameError" className={styles.error} role="alert">
+                {state.errors.firstName}
+              </p>
             )}
           </Form.Group>
 
-          <Form.Group
-            className={styles.formGroup}
-            controlId="formGroupLastName"
-          >
-            <Form.Label className={styles.label}>Last name</Form.Label>
+          <Form.Group className={styles.formGroup}>
+            <Form.Label className={styles.label} htmlFor="lastNameInput">
+              Last name
+            </Form.Label>
             <Form.Control
               type="text"
+              id="lastNameInput"
               name="lastName"
               placeholder="Enter last name"
               value={state.formInputs.lastName}
               onChange={handleChange}
               className={styles.input}
+              aria-invalid={!!state.errors.lastName}
+              aria-describedby={
+                state.errors.lastName ? "lastNameError" : undefined
+              }
+              required
             />
             {state.errors.lastName && (
-              <p className={styles.error}>{state.errors.lastName}</p>
+              <p id="lastNameError" className={styles.error} role="alert">
+                {state.errors.lastName}
+              </p>
             )}
           </Form.Group>
 
-          <Form.Group className={styles.formGroup} controlId="formGroupEmail">
-            <Form.Label className={styles.label}>Email address</Form.Label>
+          <Form.Group className={styles.formGroup}>
+            <Form.Label className={styles.label} htmlFor="emailInput">
+              Email address
+            </Form.Label>
             <Form.Control
               type="email"
+              id="emailInput"
               placeholder="Enter email"
               name="email"
               value={state.formInputs.email}
               onChange={handleChange}
               className={styles.input}
+              aria-invalid={!!state.errors.email}
+              aria-describedby={state.errors.email ? "emailError" : undefined}
+              required
             />
             {state.errors.email && (
-              <p className={styles.error}>{state.errors.email}</p>
+              <p id="emailError" className={styles.error} role="alert">
+                {state.errors.email}
+              </p>
             )}
           </Form.Group>
 
-          <Form.Group
-            className={styles.formGroup}
-            controlId="formGroupPassword"
-          >
-            <Form.Label className={styles.label}>Password</Form.Label>
+          <Form.Group className={styles.formGroup}>
+            <Form.Label className={styles.label} htmlFor="passwordInput">
+              Password
+            </Form.Label>
             <Form.Control
               type="password"
+              id="passwordInput"
               placeholder="Password"
               name="password"
               value={state.formInputs.password}
               onChange={handleChange}
               className={styles.input}
+              aria-invalid={!!state.errors.password}
+              aria-describedby={
+                state.errors.password ? "passwordError" : undefined
+              }
+              required
             />
             {state.errors.password && (
-              <p className={styles.error}>{state.errors.password}</p>
+              <p id="passwordError" className={styles.error} role="alert">
+                {state.errors.password}
+              </p>
             )}
           </Form.Group>
 
-          <div className={styles.roleSelect}>
+          <div
+            className={styles.roleSelect}
+            role="radiogroup"
+            aria-labelledby="roleLabel"
+          >
+            <span id="roleLabel" className={styles.label}>
+              Select role
+            </span>
             <Form.Check
               type="radio"
               label="Staff"
               name="role"
-              id="formHorizontalRadios1"
+              id="roleStaff"
               value="staff"
               checked={state.formInputs.role === "staff"}
               onChange={handleChange}
@@ -237,7 +276,7 @@ const Signup = () => {
               type="radio"
               label="Community member"
               name="role"
-              id="formHorizontalRadios2"
+              id="roleCommunity"
               value="community"
               checked={state.formInputs.role === "community"}
               onChange={handleChange}
@@ -248,7 +287,9 @@ const Signup = () => {
           <Form.Group as={Row} className={styles.submitRow}>
             <Col sm={{ span: 10, offset: 2 }}>
               {state.loading ? (
-                <p className={styles.loading}>Loading...</p>
+                <p className={styles.loading} aria-live="polite">
+                  Loading...
+                </p>
               ) : (
                 <Button
                   type="submit"
@@ -262,7 +303,9 @@ const Signup = () => {
           </Form.Group>
 
           {state.errors.signup && (
-            <p className={styles.error}>{state.errors.signup}</p>
+            <p className={styles.error} role="alert" aria-live="assertive">
+              {state.errors.signup}
+            </p>
           )}
         </fieldset>
 

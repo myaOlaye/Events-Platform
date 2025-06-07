@@ -221,8 +221,6 @@ describe("GET /api/users/:user_id/events", () => {
       });
   });
   test("403: should return forbidden if a staff member tries to access another users signups", () => {
-    // This makes sense as we dont want all staff members to see all events that different users have signed up with as it may not be theres
-    // may want to eventually extend so that a staff member can see all events a user has signed up to that they created
     const token = createToken("staff", 1);
     const cookie = `access_token=${token}`;
 
@@ -608,6 +606,55 @@ describe("POST /api/signups", () => {
         expect(msg).toBe("Conflict");
       });
   });
+});
+
+describe("GET /api/signups/event/:event_id", () => {
+  test("200: Fetches all users who are signed up to a specific event", () => {
+    const token = createToken("staff", 3);
+    const cookie = `access_token=${token}`;
+
+    return request(app)
+      .get("/api/signups/event/2")
+      .set("Cookie", cookie)
+      .expect(200)
+      .then(({ body: { users } }) => {
+        expect(users.length).toBe(2);
+        users.forEach((user) => {
+          expect(
+            expect(user).toMatchObject({
+              first_name: expect.any(String),
+              last_name: expect.any(String),
+              email: expect.any(String),
+              role: expect.any(String),
+            })
+          );
+        });
+      });
+  });
+  test("403: returns forbidden when a staff member tries to access signups for an event they did not create", () => {
+    const token = createToken("staff", 4);
+    const cookie = `access_token=${token}`;
+
+    return request(app)
+      .get("/api/signups/event/2")
+      .set("Cookie", cookie)
+      .expect(403)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Forbidden");
+      });
+  });
+});
+test("403: returns forbidden when a community member tries to access signups", () => {
+  const token = createToken("staff", 1);
+  const cookie = `access_token=${token}`;
+
+  return request(app)
+    .get("/api/signups/event/2")
+    .set("Cookie", cookie)
+    .expect(403)
+    .then(({ body: { msg } }) => {
+      expect(msg).toBe("Forbidden");
+    });
 });
 
 describe("GET /api/users/auth/me", () => {

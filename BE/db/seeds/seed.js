@@ -2,8 +2,6 @@ const format = require("pg-format");
 const db = require("../connection");
 const { convertTimestampToDate } = require("./utils");
 
-//seeded users data table - see if worked
-
 const seed = ({ eventsData, usersData, signupsData }) => {
   return db
     .query(`DROP TABLE IF EXISTS signups`)

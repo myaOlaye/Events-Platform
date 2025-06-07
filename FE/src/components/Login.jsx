@@ -96,45 +96,67 @@ const Login = () => {
   };
 
   return (
-    <div className={styles.loginContainer}>
-      <h2 className={styles.heading}>Login</h2>
-      <Form onSubmit={handleSubmit} className={styles.form}>
+    <main className={styles.loginContainer} aria-label="Login form">
+      <h1 className={styles.heading}>Login</h1>
+
+      <Form onSubmit={handleSubmit} className={styles.form} noValidate>
         <fieldset className={styles.fieldset}>
-          <Form.Group className={styles.formGroup} controlId="formGroupEmail">
-            <Form.Label className={styles.label}>Email address</Form.Label>
+          <legend className={styles.srOnly}>Login credentials</legend>
+
+          <Form.Group className={styles.formGroup}>
+            <Form.Label className={styles.label} htmlFor="emailInput">
+              Email address
+            </Form.Label>
             <Form.Control
+              id="emailInput"
               type="email"
               placeholder="Enter email"
               name="email"
               value={loginFormData.email}
               onChange={handleChange}
               className={styles.input}
+              aria-invalid={!!formErrors.email}
+              aria-describedby={formErrors.email ? "emailError" : undefined}
+              required
             />
             {formErrors.email && (
-              <p className={styles.error}>{formErrors.email}</p>
+              <p id="emailError" className={styles.error} role="alert">
+                {formErrors.email}
+              </p>
             )}
           </Form.Group>
-          <Form.Group
-            className={styles.formGroup}
-            controlId="formGroupPassword"
-          >
-            <Form.Label className={styles.label}>Password</Form.Label>
+
+          <Form.Group className={styles.formGroup}>
+            <Form.Label className={styles.label} htmlFor="passwordInput">
+              Password
+            </Form.Label>
             <Form.Control
+              id="passwordInput"
               type="password"
               placeholder="Enter password"
               name="password"
               value={loginFormData.password}
               onChange={handleChange}
               className={styles.input}
+              aria-invalid={!!formErrors.password}
+              aria-describedby={
+                formErrors.password ? "passwordError" : undefined
+              }
+              required
             />
             {formErrors.password && (
-              <p className={styles.error}>{formErrors.password}</p>
+              <p id="passwordError" className={styles.error} role="alert">
+                {formErrors.password}
+              </p>
             )}
           </Form.Group>
+
           <Form.Group as={Row} className={styles.submitRow}>
             <Col sm={{ span: 10, offset: 2 }}>
               {loading ? (
-                <p className={styles.loading}>Loading...</p>
+                <p className={styles.loading} aria-live="polite">
+                  Loading...
+                </p>
               ) : (
                 <button type="submit" className={styles.submitButton}>
                   Log in
@@ -143,12 +165,21 @@ const Login = () => {
             </Col>
           </Form.Group>
         </fieldset>
-        {loginError && <p className={styles.error}>{loginError}</p>}
+
+        {loginError && (
+          <p className={styles.error} role="alert" aria-live="assertive">
+            {loginError}
+          </p>
+        )}
       </Form>
+
       <p className={styles.signupPrompt}>
-        Don't have an account? <Link to="/signup">Sign up here.</Link>
+        Don't have an account?{" "}
+        <Link to="/signup" className={styles.signupLink}>
+          Sign up here.
+        </Link>
       </p>
-    </div>
+    </main>
   );
 };
 

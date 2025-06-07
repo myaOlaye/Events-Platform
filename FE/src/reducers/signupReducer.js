@@ -10,7 +10,7 @@ const signupReducer = (state, action) => {
         ...state,
         errors: { ...state.errors, [action.field]: action.value },
       };
-    case "set_signup_error": //if request fails
+    case "set_signup_error":
       return {
         ...state,
         errors: { ...state.errors, signup: action.value },

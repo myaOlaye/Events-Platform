@@ -15,7 +15,7 @@
   background-color: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease-in-out;
-  min-height: 320px; /* Ensures consistent card height */
+  min-height: 320px;
 }
 
 .card:hover {
@@ -56,7 +56,7 @@
   margin: 0.5rem 0;
 
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* Number of lines to display */
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -64,15 +64,14 @@
 
 .date {
   font-size: 0.85rem;
-  color: #888;
+  color: #4d4d4d;
   margin-top: 1rem;
 }
 
-/* Tablet & Desktop Layout */
 @media (min-width: 840px) {
   .card {
     flex-direction: row;
-    height: 280px; /* Locks in card height */
+    height: 280px;
   }
 
   .eventImage {
@@ -86,7 +85,6 @@
   }
 }
 
-/* Small mobile devices */
 @media (max-width: 500px) {
   .card {
     width: 95%;

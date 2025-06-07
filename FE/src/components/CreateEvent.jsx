@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useContext } from "react";
+import React, { useReducer, useEffect, useContext, useRef } from "react";
 import { Form, Button, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { UserInfoContext } from "../contexts/UserInfoContext";
@@ -35,6 +35,7 @@ const CreateEvent = () => {
   const { userInfo } = useContext(UserInfoContext);
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialState);
+  const headingRef = useRef(null);
 
   useEffect(() => {
     if (!userInfo.id) {
@@ -47,6 +48,12 @@ const CreateEvent = () => {
       navigate("/unauthorised");
     }
   }, [userInfo.role, navigate]);
+
+  useEffect(() => {
+    if (headingRef.current) {
+      headingRef.current.focus();
+    }
+  }, []);
 
   const validateForm = () => {
     const errors = {};
@@ -131,10 +138,23 @@ const CreateEvent = () => {
 
   return (
     <div className={styles.eventFormContainer}>
-      <h1 className={styles.formTitle}>Post a New Event</h1>
-      <Form onSubmit={handleSubmit} className={styles.eventForm}>
-        {/* Event Name */}
-        <Form.Group className={styles.formGroup}>
+      <h1 className={styles.formTitle} tabIndex="-1" ref={headingRef}>
+        Post a New Event
+      </h1>
+
+      {state.errors.general && (
+        <p
+          className={styles.generalError}
+          role="alert"
+          aria-live="assertive"
+          id="general-error"
+        >
+          {state.errors.general}
+        </p>
+      )}
+
+      <Form onSubmit={handleSubmit} className={styles.eventForm} noValidate>
+        <Form.Group controlId="event-title" className={styles.formGroup}>
           <Form.Label className={styles.label}>Event Name</Form.Label>
           <Form.Control
             type="text"
@@ -150,17 +170,21 @@ const CreateEvent = () => {
             isInvalid={!!state.errors.title}
             className={styles.input}
             placeholder="Enter event title"
+            aria-describedby={state.errors.title ? "title-error" : undefined}
           />
-          <Form.Control.Feedback
-            type="invalid"
-            className={styles.errorFeedback}
-          >
-            {state.errors.title}
-          </Form.Control.Feedback>
+          {state.errors.title && (
+            <Form.Control.Feedback
+              type="invalid"
+              className={styles.errorFeedback}
+              role="alert"
+              id="title-error"
+            >
+              {state.errors.title}
+            </Form.Control.Feedback>
+          )}
         </Form.Group>
 
-        {/* Description */}
-        <Form.Group className={styles.formGroup}>
+        <Form.Group controlId="event-description" className={styles.formGroup}>
           <Form.Label className={styles.label}>Description</Form.Label>
           <Form.Control
             as="textarea"
@@ -177,17 +201,23 @@ const CreateEvent = () => {
             isInvalid={!!state.errors.description}
             className={styles.textarea}
             placeholder="Describe your event"
+            aria-describedby={
+              state.errors.description ? "description-error" : undefined
+            }
           />
-          <Form.Control.Feedback
-            type="invalid"
-            className={styles.errorFeedback}
-          >
-            {state.errors.description}
-          </Form.Control.Feedback>
+          {state.errors.description && (
+            <Form.Control.Feedback
+              type="invalid"
+              className={styles.errorFeedback}
+              role="alert"
+              id="description-error"
+            >
+              {state.errors.description}
+            </Form.Control.Feedback>
+          )}
         </Form.Group>
 
-        {/* Location */}
-        <Form.Group className={styles.formGroup}>
+        <Form.Group controlId="event-location" className={styles.formGroup}>
           <Form.Label className={styles.label}>Location</Form.Label>
           <Form.Control
             type="text"
@@ -203,17 +233,23 @@ const CreateEvent = () => {
             isInvalid={!!state.errors.location}
             className={styles.input}
             placeholder="Where is the event?"
+            aria-describedby={
+              state.errors.location ? "location-error" : undefined
+            }
           />
-          <Form.Control.Feedback
-            type="invalid"
-            className={styles.errorFeedback}
-          >
-            {state.errors.location}
-          </Form.Control.Feedback>
+          {state.errors.location && (
+            <Form.Control.Feedback
+              type="invalid"
+              className={styles.errorFeedback}
+              role="alert"
+              id="location-error"
+            >
+              {state.errors.location}
+            </Form.Control.Feedback>
+          )}
         </Form.Group>
 
-        {/* Date & Time */}
-        <Form.Group className={styles.formGroup}>
+        <Form.Group controlId="event-date" className={styles.formGroup}>
           <Form.Label className={styles.label}>Date & Time</Form.Label>
           <Form.Control
             type="datetime-local"
@@ -229,17 +265,21 @@ const CreateEvent = () => {
             isInvalid={!!state.errors.date}
             className={styles.input}
             min={getLocalDateTime()}
+            aria-describedby={state.errors.date ? "date-error" : undefined}
           />
-          <Form.Control.Feedback
-            type="invalid"
-            className={styles.errorFeedback}
-          >
-            {state.errors.date}
-          </Form.Control.Feedback>
+          {state.errors.date && (
+            <Form.Control.Feedback
+              type="invalid"
+              className={styles.errorFeedback}
+              role="alert"
+              id="date-error"
+            >
+              {state.errors.date}
+            </Form.Control.Feedback>
+          )}
         </Form.Group>
 
-        {/* Event Image */}
-        <Form.Group className={styles.formGroup}>
+        <Form.Group controlId="event-image" className={styles.formGroup}>
           <Form.Label className={styles.label}>
             Event Image (Optional)
           </Form.Label>
@@ -254,15 +294,13 @@ const CreateEvent = () => {
               })
             }
             className={styles.fileInput}
+            aria-describedby="image-help"
           />
+          <Form.Text id="image-help" muted>
+            Choose a JPG, PNG, or GIF (optional).
+          </Form.Text>
         </Form.Group>
 
-        {/* General Errors */}
-        {state.errors.general && (
-          <p className={styles.generalError}>{state.errors.general}</p>
-        )}
-
-        {/* Submit Button */}
         <Button
           variant="primary"
           type="submit"
@@ -270,7 +308,15 @@ const CreateEvent = () => {
           className={styles.submitBtn}
         >
           {state.loading ? (
-            <Spinner animation="border" size="sm" />
+            <>
+              <Spinner
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+              <span className="visually-hidden">Uploading Event...</span>
+            </>
           ) : (
             "Upload Event"
           )}

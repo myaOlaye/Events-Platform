@@ -9,7 +9,7 @@ const authenticate = (req, res, next) => {
     if (err) {
       return res.status(401).send({ msg: "Invalid token" });
     } else {
-      req.user = decoded; //attatching the user to the request object
+      req.user = decoded;
       next();
     }
   });

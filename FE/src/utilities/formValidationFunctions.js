@@ -1,5 +1,4 @@
 export const formatFieldName = (field) => {
-  // Turn camelCase to readable label
   const formatted = field.replace(/([A-Z])/g, " $1");
   return formatted.charAt(0).toUpperCase() + formatted.slice(1);
 };

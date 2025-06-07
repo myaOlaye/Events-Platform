@@ -39,7 +39,7 @@
 .fileInput {
   font-size: 1rem;
   padding: 0.65rem 1rem;
-  border: 1.8px solid #cbd5e1; /* light gray-blue */
+  border: 1.8px solid #cbd5e1;
   border-radius: 10px;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
   background-color: #fefefe;
@@ -51,7 +51,7 @@
 .textarea:focus,
 .fileInput:focus {
   outline: none;
-  border-color: #3b82f6; /* bright blue */
+  border-color: #3b82f6;
   box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
 }
 
@@ -62,7 +62,7 @@
 
 .errorFeedback {
   font-size: 0.875rem;
-  color: #dc2626; /* red-600 */
+  color: #dc2626;
   margin-top: 0.35rem;
   text-align: left;
 }
@@ -99,7 +99,6 @@
   cursor: not-allowed;
 }
 
-/* Responsive tweaks */
 @media (max-width: 520px) {
   .eventFormContainer {
     margin: 1.5rem 1rem;

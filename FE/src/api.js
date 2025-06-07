@@ -118,3 +118,13 @@ export const logout = () => {
     withCredentials: true,
   });
 };
+
+export const getEventAttendees = (eventId) => {
+  return api
+    .get(`/signups/event/${eventId}`, {
+      withCredentials: true,
+    })
+    .then(({ data: { users } }) => {
+      return users;
+    });
+};

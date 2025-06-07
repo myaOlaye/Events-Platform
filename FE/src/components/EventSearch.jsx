@@ -12,7 +12,6 @@ const EventSearch = () => {
   const [error, setError] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const { setUserInfo } = useContext(UserInfoContext);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,15 +38,12 @@ const EventSearch = () => {
     setLoading(true);
     getEvents(searchInput)
       .then((events) => {
-        console.log(events, "events in handle search");
         setEvents(events);
         setLoading(false);
       })
       .catch((err) => {
         if (err.code === "ERR_NETWORK") {
           setError("Network error. Please try again later.");
-        }
-        if (err.status === 401) {
         }
         setLoading(false);
       });
@@ -56,30 +52,56 @@ const EventSearch = () => {
   return (
     <>
       <h1 className={styles.header}>Find an Event</h1>
-      <form onSubmit={handleSubmit} className={styles.searchForm}>
+
+      <form
+        onSubmit={handleSubmit}
+        className={styles.searchForm}
+        role="search"
+        aria-label="Event search form"
+      >
+        <label htmlFor="eventSearch" className={styles.visuallyHidden}>
+          Search events
+        </label>
         <input
+          id="eventSearch"
           className={styles.searchInput}
           type="text"
           placeholder="Search events"
           value={searchInput}
-          onChange={(e) => {
-            setSearchInput(e.target.value);
-          }}
+          onChange={(e) => setSearchInput(e.target.value)}
+          aria-describedby="searchHelp"
         />
-        <button className={styles.searchButton} type="submit">
-          <IoSearch size={22} />
+        <button
+          className={styles.searchButton}
+          type="submit"
+          aria-label="Search events"
+        >
+          <IoSearch size={28} />
         </button>
       </form>
+
+      <div id="searchHelp" className={styles.visuallyHidden}>
+        Type your search query and press Enter or click the search button
+      </div>
+
       {error ? (
-        <p>{error}</p>
+        <p role="alert" className={styles.errorMessage}>
+          {error}
+        </p>
       ) : loading ? (
-        <p>Loading...</p>
+        <p role="alert" className={styles.loadingMessage}>
+          Loading...
+        </p>
       ) : events.length > 0 ? (
-        events.map((event) => {
-          return <EventCard key={event.id} event={event}></EventCard>;
-        })
+        <section aria-live="polite" aria-atomic="true">
+          {events.map((event) => (
+            <EventCard key={event.id} event={event} />
+          ))}
+        </section>
       ) : (
-        <p>No events matched your search </p>
+        <p role="status" aria-live="polite">
+          No events matched your search
+        </p>
       )}
     </>
   );

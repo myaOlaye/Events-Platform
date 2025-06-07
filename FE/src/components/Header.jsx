@@ -36,16 +36,22 @@ const Header = () => {
   };
 
   return (
-    <header className={styles.header}>
-      <div className={styles.logo} onClick={() => navigate("/")}>
+    <header className={styles.header} role="banner">
+      <div
+        className={styles.logo}
+        onClick={() => navigate("/")}
+        aria-label="Go to homepage"
+      >
         EventsPlatform
       </div>
+
       <div className={styles.headerRight}>
         {userInfo.firstName && (
           <p className={styles.welcomeMessage}>
             Welcome back, {formatName(userInfo.firstName)}
           </p>
         )}
+
         {userInfo.id && (
           <div className={styles.dropdown} ref={dropdownRef}>
             <button
@@ -53,25 +59,47 @@ const Header = () => {
               onClick={() => setDropdownOpen(!dropdownOpen)}
               aria-haspopup="true"
               aria-expanded={dropdownOpen}
+              aria-label="User menu"
+              type="button"
             >
               <IoMenu className={styles.menuIcon} size={24} />
             </button>
+
             {dropdownOpen && (
-              <ul className={styles.dropdownMenu}>
-                <li
-                  className={styles.dropdownItem}
-                  onClick={() => handleNavigate("/")}
-                >
-                  Find Events
+              <ul
+                className={styles.dropdownMenu}
+                role="menu"
+                aria-label="User options menu"
+              >
+                <li role="none">
+                  <button
+                    role="menuitem"
+                    className={styles.dropdownItem}
+                    onClick={() => handleNavigate("/")}
+                    type="button"
+                  >
+                    Find Events
+                  </button>
                 </li>
-                <li
-                  className={styles.dropdownItem}
-                  onClick={() => handleNavigate("/your-events/attending")}
-                >
-                  Your Events
+                <li role="none">
+                  <button
+                    role="menuitem"
+                    className={styles.dropdownItem}
+                    onClick={() => handleNavigate("/your-events/attending")}
+                    type="button"
+                  >
+                    Your Events
+                  </button>
                 </li>
-                <li className={styles.dropdownItem} onClick={handleLogout}>
-                  Log Out
+                <li role="none">
+                  <button
+                    role="menuitem"
+                    className={styles.dropdownItem}
+                    onClick={handleLogout}
+                    type="button"
+                  >
+                    Log Out
+                  </button>
                 </li>
               </ul>
             )}

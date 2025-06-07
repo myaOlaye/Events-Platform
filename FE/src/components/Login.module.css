@@ -78,6 +78,34 @@
   color: #555;
 }
 
+.srOnly {
+  border: 0 !important;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  width: 1px !important;
+  white-space: nowrap !important;
+}
+
+input:focus,
+button:focus,
+select:focus,
+textarea:focus {
+  outline: 3px solid #0077cc;
+  outline-offset: 2px;
+  box-shadow: 0 0 5px rgba(0, 119, 204, 0.5);
+}
+
+input:focus,
+button:focus {
+  background-color: #fff;
+  color: #000;
+}
+
 .signupPrompt {
   text-align: center;
   margin-top: 1.5rem;

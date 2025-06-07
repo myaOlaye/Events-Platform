@@ -10,17 +10,25 @@ const EventCard = ({
   const navigate = useNavigate();
 
   return (
-    <Link to={`/event/${id}`} className={styles.link}>
-      <div className={styles.card}>
-        <img src={image_url} alt={title} className={styles.eventImage} />
-        <div className={styles.cardContent}>
-          <h2>{title}</h2>
-          <p className={styles.location}>{location}</p>
-          <p className={styles.description}>{description}</p>
-          <p className={styles.date}>{formatDate(date)}</p>
+    <article tabIndex="-1">
+      <Link to={`/event/${id}`} className={styles.link}>
+        <div className={styles.card}>
+          <img src={image_url} alt={title} className={styles.eventImage} />
+          <div className={styles.cardContent}>
+            <h2>{title}</h2>
+            <p className={styles.location}>
+              <strong>Location:</strong> {location}
+            </p>
+            <p className={styles.description}>
+              <strong>Description:</strong> {description}
+            </p>
+            <p className={styles.date}>
+              <strong>Date:</strong> {formatDate(date)}
+            </p>
+          </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </article>
   );
 };
 

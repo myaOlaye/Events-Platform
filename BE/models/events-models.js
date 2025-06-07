@@ -46,7 +46,6 @@ exports.selectEvent = (event_id) => {
 };
 
 exports.removeEvent = (event_id, user_id) => {
-  // first check that user trying to delete event created the event
   return db
     .query("SELECT * FROM events where id = $1 AND created_by = $2 ", [
       event_id,

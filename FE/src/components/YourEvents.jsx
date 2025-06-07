@@ -29,10 +29,9 @@ const YourEvents = () => {
           setLoading(false);
         })
         .catch((err) => {
-          if (err.response.status === 500) {
+          if (err.response?.status === 500) {
             setError("Failed to fetch events. Please try again later.");
           } else if (err.status === 401) {
-            //probs redundant cause this wouldnt run if there is no valid credientioals
             navigate("/login");
           } else {
             setError(
@@ -45,29 +44,48 @@ const YourEvents = () => {
   }, [userInfo.id]);
 
   return (
-    <div className={styles.pageContainer}>
-      {userInfo.role === "staff" && <StaffSideNav />}
-      <div className={styles.content}>
-        <h2 className={styles.eventHeading}>Events you signed up for</h2>
-        {error ? (
-          <p className={styles.error}>{error}</p>
-        ) : loading ? (
-          <p className={styles.loading}>Loading...</p>
-        ) : (
-          <>
-            {events.length === 0 && (
-              <p>
-                You are not signed up to any events.{" "}
-                <Link to="/">Click here to browse events.</Link>
-              </p>
-            )}
-            {events.map((event) => {
-              return <EventCard key={event.id} event={event}></EventCard>;
-            })}
-          </>
-        )}
+    <>
+      <a href="#mainContent" className={styles.srOnlyFocusable}>
+        Skip to main content
+      </a>
+
+      <div className={styles.pageContainer}>
+        {userInfo.role === "staff" && <StaffSideNav />}
+
+        <main
+          id="mainContent"
+          className={styles.content}
+          tabIndex={-1}
+          aria-live="polite"
+          aria-busy={loading}
+        >
+          <h2 className={styles.eventHeading}>Events you signed up for</h2>
+
+          {error ? (
+            <p role="alert" className={styles.error}>
+              {error}
+            </p>
+          ) : loading ? (
+            <p className={styles.loading}>Loading events...</p>
+          ) : (
+            <>
+              {events.length === 0 && (
+                <p>
+                  You are not signed up to any events.{" "}
+                  <Link to="/" className={styles.link}>
+                    Click here to browse events.
+                  </Link>
+                </p>
+              )}
+
+              {events.map((event) => (
+                <EventCard key={event.id} event={event} />
+              ))}
+            </>
+          )}
+        </main>
       </div>
-    </div>
+    </>
   );
 };
 

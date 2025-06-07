@@ -1,22 +1,33 @@
-.sideNav {
+.nav {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+  padding: 1.5rem 1.5rem;
+}
+
+.navList {
   display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 2rem;
+}
+
+.navItem {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  padding: 0.5rem 0;
   position: relative;
-  width: 100%;
-  height: auto;
-  border-right: none;
-  border-bottom: 1px solid #d0d7de;
-  flex-direction: row;
-  justify-content: space-evenly;
-  padding: 1rem;
-  z-index: 2;
 }
 
-.sideNav p {
-  cursor: pointer;
-  color: #1a73e8;
-  transition: color 0.2s;
+.navItem:focus,
+.navItem:hover {
+  color: #0056b3;
+  outline: 2px solid #0056b3;
+  outline-offset: 2px;
 }
 
-.sideNav p:hover {
-  color: #0b51c5;
+.active {
+  border-bottom: 3px solid #007bff;
+  font-weight: 600;
 }

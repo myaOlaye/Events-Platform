@@ -5,11 +5,10 @@
   background-color: #0066cc;
   color: white;
   padding: 0.75rem 1.5rem;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
   position: sticky;
   top: 0;
   z-index: 9999;
-  margin-bottom: 1rem;
 }
 .headerRight {
   display: flex;
@@ -68,6 +67,8 @@
   cursor: pointer;
   user-select: none;
   transition: background-color 0.15s ease;
+  background-color: transparent;
+  color: black;
 }
 
 .dropdownItem:hover,
