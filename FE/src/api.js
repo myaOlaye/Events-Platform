@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://events-platform-uvlq.onrender.com",
+  baseURL: "https://events-platform-uvlq.onrender.com/api",
 });
 
 export const getEvents = (searchTerm = "") => {

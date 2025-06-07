@@ -15,7 +15,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173", // Local development environment,
-      "https://68442675adac96e9c08d18fa--launchpadeventsplatform.netlify.app",
+      "https://684427c3700eac85e2ad52c6--launchpadeventsplatform.netlify.app",
     ],
     credentials: true,
   })
