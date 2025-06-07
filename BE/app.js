@@ -18,10 +18,9 @@ app.use(
       "https://684427c3700eac85e2ad52c6--launchpadeventsplatform.netlify.app",
     ],
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   })
 );
-
-// app.options("/*", cors());
 
 app.use(cookieParser());
 
