@@ -15,7 +15,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://launchpadeventsplatform.netlify.app/",
+      "https://launchpadeventsplatform.netlify.app",
     ],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
