@@ -36,14 +36,11 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route
-          path="/*"
-          element={<p>Theres nothing here. Soon to be Error page</p>}
-        ></Route>
-        <Route path="/bad-request" element={<p>400 Bad Request</p>}></Route>
+        <Route path="/*" element={<p>404: Page Not Found</p>}></Route>
+        <Route path="/bad-request" element={<p>400: Bad Request</p>}></Route>
         <Route
           path="/unauthorised"
-          element={<p>You are not authorised to view this page</p>}
+          element={<p>403: You are not authorised to view this page</p>}
         ></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/login" element={<Login />}></Route>

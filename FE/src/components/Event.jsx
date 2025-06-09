@@ -11,7 +11,6 @@ import { UserInfoContext } from "../contexts/UserInfoContext";
 import styles from "./Event.module.css";
 import EventAttendees from "./EventAttendees";
 
-// Simple modal for confirmation
 const ConfirmModal = ({ isOpen, onConfirm, onCancel, message }) => {
   const modalRef = useRef();
 
