@@ -62,14 +62,14 @@ npm install
 
 Create 3 `.env` files in the root of the `BE` directory with the following names and evironment variables:
 
-  1. .env.development 
+  1. .env.development - 
     PGDATABASE=events_platform
 
-  2. .env.secrets 
+  2. .env.secrets -
     JWT_SECRET=[any random string]
     JWT_EXPIRES_IN=1h
 
-  3. .env.test
+  3. .env.test -
     PGDATABASE=events_platform_test
 
 ---
